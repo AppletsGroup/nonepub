@@ -1,0 +1,4 @@
+p.empty-node::before {
+  @apply text-gray-400 absolute cursor-text;
+  content: '输入 / 可快速插入内容';
+}

@@ -1,0 +1,6 @@
+.xx-editor code {
+  @apply bg-gray-200 rounded;
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+}

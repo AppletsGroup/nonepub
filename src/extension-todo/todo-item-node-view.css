@@ -1,0 +1,3 @@
+.xx-editor-todo-item--done div {
+  @apply line-through text-gray-500;
+}

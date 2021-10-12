@@ -1,0 +1,4 @@
+ul[data-todo-list] {
+  @apply list-none;
+  padding-left: 0;
+}

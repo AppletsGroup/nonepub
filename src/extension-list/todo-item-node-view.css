@@ -1,0 +1,9 @@
+.xx-editor-todo-item p {
+  @apply text-sm;
+  margin-top: 0 !important;
+  vertical-align: middle;
+}
+
+.xx-editor-todo-item--done p {
+  @apply line-through text-gray-500;
+}
