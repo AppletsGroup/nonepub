@@ -32,8 +32,11 @@ import { StrongExtension } from '@/extension-strong'
 import { SuggestionExtension } from '@/extension-suggestion'
 import { UnderlineExtension } from '@/extension-underline'
 
-export default function defaultPreset() {
+export default function defaultPreset(
+  defaultContent?: EditorOptions['defaultContent'],
+) {
   const options: Partial<EditorOptions> = {
+    defaultContent,
     extensions: [
       new StateExtension(),
       new ReactExtension(),

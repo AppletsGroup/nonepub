@@ -3,13 +3,16 @@ import { EditorView } from 'prosemirror-view'
 import { CommandManager } from './command-manager'
 import { Extension } from './extension'
 import { ExtensionManager } from './extension-manager'
+import { DOMParser, DOMSerializer } from 'prosemirror-model'
 // import applyDevTools from 'prosemirror-dev-tools'
-import { s } from './data'
-import { DOMSerializer } from 'prosemirror-model'
 
 export interface EditorOptions {
   el: Node
   extensions: Extension[]
+  defaultContent?: {
+    value: string
+    type: 'markdown' | 'html'
+  }
 }
 
 export class Editor {
@@ -65,10 +68,26 @@ export class Editor {
   createEditorView() {
     const pasteExtension = this.extensions.find((ex) => ex.name === 'paste')
     const self = this
+    let doc: Parameters<typeof EditorState.create>[0]['doc']
+
+    if (this.options.defaultContent) {
+      switch (this.options.defaultContent.type) {
+        case 'markdown':
+          doc = (pasteExtension as any).parser.parse(
+            this.options.defaultContent.value,
+          )
+          break
+        case 'html':
+          const dom = document.createElement('div')
+          dom.innerHTML = this.options.defaultContent.value
+          doc = DOMParser.fromSchema(this.extensionManager.schema).parse(dom)
+      }
+    }
+
     const state = EditorState.create({
       schema: this.extensionManager.schema,
       plugins: this.extensionManager.pmPlugins,
-      doc: (pasteExtension as any).parser.parse(s),
+      doc,
     })
     this.editorView = new EditorView(this.options.el, {
       state,

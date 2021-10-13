@@ -5,8 +5,12 @@ import {
   EditorContent,
 } from '@/index'
 import { useCallback } from 'react'
+import html from './content/index.html'
 
-const options = defaultPreset()
+const options = defaultPreset({
+  type: 'html',
+  value: html,
+})
 
 export default function App() {
   const editor = useEditor(options)
