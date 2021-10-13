@@ -5,6 +5,7 @@ import { Extension } from './extension'
 import { ExtensionManager } from './extension-manager'
 // import applyDevTools from 'prosemirror-dev-tools'
 import { s } from './data'
+import { DOMSerializer } from 'prosemirror-model'
 
 export interface EditorOptions {
   el: Node
@@ -84,8 +85,22 @@ export class Editor {
   public destroy() {
     this.extensionManager.destroy()
     this.editorView.destroy()
+    this.editorView.state.doc.toJSON
   }
 
   // TODO: 当状态发生变化的时候 通知 react（注//声称需要状态时时变化的组件才需要）
   onStateChange(fn: any) {}
+
+  getContentJSON() {
+    return this.editorView.state.doc.toJSON()
+  }
+
+  getContentHtml() {
+    const dom = DOMSerializer.fromSchema(
+      this.editorView.state.doc.type.schema,
+    ).serializeFragment(this.editorView.state.doc.content)
+    const el = document.createElement('div')
+    el.append(dom)
+    return el.innerHTML
+  }
 }

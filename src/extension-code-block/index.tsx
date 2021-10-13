@@ -15,8 +15,6 @@ import { Decoration } from 'prosemirror-view'
 import { CodeBlockView } from './code-block'
 import { LanguageSelect } from './language-select'
 
-const preDOM: DOMOutputSpec = ['pre', ['code', 0]]
-
 export interface CodeBlockPluginState {
   isSelectLang: boolean
   activeNodePos?: number
@@ -66,9 +64,29 @@ export class CodeBlockExtension extends ExtensionWithState<
           group: 'block',
           code: true,
           defining: true,
-          parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
-          toDOM() {
-            return preDOM
+          parseDOM: [
+            {
+              tag: 'pre',
+              preserveWhitespace: 'full',
+              getAttrs: (node) => {
+                let mode = 'plain'
+                if (node instanceof Element) {
+                  mode = node.getAttribute('data-mode') || 'plain'
+                }
+                return {
+                  mode,
+                }
+              },
+            },
+          ],
+          toDOM(node) {
+            return [
+              'pre',
+              {
+                'data-mode': node.attrs.mode || 'plain',
+              },
+              ['code', 0],
+            ]
           },
         },
       },
