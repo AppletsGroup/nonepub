@@ -68,12 +68,23 @@ export default function defaultPreset() {
           {
             name: 'wrapInList',
             options: {
-              type: 'todo_list',
+              type: 'ul',
               attrs: {},
             },
           },
           {
-            name: 'wrapInTodo',
+            name: 'wrapInList',
+            options: {
+              type: 'ol',
+              attrs: {},
+            },
+          },
+          {
+            name: 'wrapInList',
+            options: {
+              type: 'todo_list',
+              attrs: {},
+            },
           },
           {
             name: 'setCodeBlock',

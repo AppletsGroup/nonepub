@@ -15,7 +15,6 @@ import {
 } from 'prosemirror-transform'
 import * as schemaList from 'prosemirror-schema-list'
 import { transformCommand } from '@/core/utils/command'
-import Test from './test'
 
 function _splitListItem(itemType: NodeType) {
   return function (
@@ -172,10 +171,43 @@ export class ListCommonExtension extends Extension {
 
   addCommands(): Record<string, Command> {
     this.addCommandMeta('wrapInList', {
-      icon: 'h-1',
-      markdown: 'xxx',
-      name: '列表',
-      shortcut: [],
+      icon: ({ type }: WrapInListOptions) => {
+        switch (type) {
+          case 'todo_list':
+            return 'list-check'
+          case 'ol':
+            return 'list-ordered'
+          case 'ul':
+            return 'list-unordered'
+          default:
+            return 'question-line'
+        }
+      },
+      markdown: ({ type }: WrapInListOptions) => {
+        switch (type) {
+          case 'todo_list':
+            return ''
+          case 'ol':
+            return '1. 任意内容'
+          case 'ul':
+            return '- 任意内容'
+          default:
+            return '未知'
+        }
+      },
+      name: ({ type }: WrapInListOptions) => {
+        switch (type) {
+          case 'todo_list':
+            return '任务列表'
+          case 'ol':
+            return '有序列表'
+          case 'ul':
+            return '无序列表'
+          default:
+            return '未知'
+        }
+      },
+      shortcut: ({ type }: WrapInListOptions) => [],
     })
 
     return {
@@ -237,10 +269,6 @@ export class ListCommonExtension extends Extension {
         return splitListItem(this.editor.schema.nodes.todo_item)
       },
     }
-  }
-
-  getReactContentComponent() {
-    return Test
   }
 }
 

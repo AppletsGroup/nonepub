@@ -88,6 +88,8 @@ declare global {
       unlink: ({ from, to }: { from: number; to: number }) => CommandReturn
 
       editInsertedLink: () => CommandReturn
+
+      addLinkToSelection: () => CommandReturn
     }
   }
 }
@@ -106,6 +108,7 @@ export enum LinkAction {
   BlurLink = 'BLUR_LINK',
   EditInsertedLink = 'EDIT_INSERTED_LINK',
   AttachLink = 'ATTACH_LINK',
+  AddLinkToSelection = 'ADD_LINK_TO_SELECTION',
 }
 
 export enum LinkStatus {
@@ -183,6 +186,16 @@ export class LinkExtension extends Extension {
         return ({ tr, dispatch }) => {
           tr.setMeta(linkPluginKey, {
             type: LinkAction.AttachLink,
+          })
+          dispatch?.(tr)
+          return true
+        }
+      },
+
+      addLinkToSelection: () => {
+        return ({ tr, dispatch }) => {
+          tr.setMeta(linkPluginKey, {
+            type: LinkAction.AddLinkToSelection,
           })
           dispatch?.(tr)
           return true
@@ -422,6 +435,12 @@ export class LinkExtension extends Extension {
                     }
                   }
                   break
+                case LinkAction.AddLinkToSelection:
+                  return {
+                    status: LinkStatus.Edit,
+                    activeLink: null,
+                  }
+
                 case LinkAction.AttachLink:
                   return {
                     ...value,

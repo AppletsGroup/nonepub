@@ -1,3 +1,46 @@
+function createDOMRect({
+  x,
+  y,
+  left,
+  top,
+  width,
+  height,
+}: {
+  x: number
+  y: number
+  left: number
+  top: number
+  width: number
+  height: number
+}): DOMRect {
+  const r = {
+    x,
+    y,
+    left,
+    top,
+    width,
+    height,
+    bottom: top + height,
+    right: left + width,
+  }
+
+  return {
+    ...r,
+    toJSON() {
+      return r
+    },
+  }
+}
+
+export const INVISIBLE_RECT = createDOMRect({
+  x: -999999,
+  y: -999999,
+  left: -999999,
+  top: -999999,
+  width: 1,
+  height: 1,
+})
+
 // 假设基于整个 body
 
 export interface Position {

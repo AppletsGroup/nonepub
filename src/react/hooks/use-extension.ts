@@ -9,6 +9,7 @@ export function useExtension<ExtensionType extends Extension>(
   if (!editor) {
     throw new Error('access editor when editor is not initialized')
   }
+  console.log('editor.extensions', editor.extensions)
   const extension = editor.extensions.find(
     (ex) => (ex as any).constructor === ExtensionCls,
   )

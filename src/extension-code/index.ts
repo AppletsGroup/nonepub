@@ -1,7 +1,15 @@
+import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionMark } from '@/core/extension'
 import { markInputRule } from '@/core/plugins/inputrules'
-import { toggleMark } from 'prosemirror-commands'
 import './styles/index.css'
+
+declare global {
+  namespace XEditor {
+    interface AllCommands {
+      toggleInlineCode: () => CommandReturn
+    }
+  }
+}
 
 export class CodeExtension extends Extension {
   name = 'code'
@@ -28,6 +36,14 @@ export class CodeExtension extends Extension {
     return [
       markInputRule(/(?:^|[^`])(`([^`]+)`)$/, this.editor.schema.marks.code),
     ]
+  }
+
+  addCommands() {
+    return {
+      toggleInlineCode: () => {
+        return this.editor.command.toggleMark(this.editor.schema.marks.code)
+      },
+    }
   }
 
   addKeybindings() {

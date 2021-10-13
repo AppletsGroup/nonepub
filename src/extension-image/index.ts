@@ -174,8 +174,8 @@ export class ImageExtension extends Extension {
 
   addCommands(): Record<string, Command> {
     this.addCommandMeta('triggerUploadImage', {
-      icon: 'double-quotes-l',
-      name: '上传',
+      icon: 'file-upload-line',
+      name: '上传图片',
       markdown: '',
       shortcut: ['command', 'shift', 'xxx'],
     })

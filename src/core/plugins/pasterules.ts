@@ -28,7 +28,6 @@ export function pasteRules(options: PasteRulesOptions) {
     key: pastePluginKey,
     props: {
       handlePaste(view, event) {
-        console.log('handle plugin paste')
         const editable = view.props.editable?.(view.state)
         if (!editable) return false
         if (!event.clipboardData) return false
@@ -52,7 +51,6 @@ export function pasteRules(options: PasteRulesOptions) {
 
       handleDOMEvents: {
         paste(view, event) {
-          console.log('handle dom events paste')
           if (view.props.editable?.(view.state)) {
             return false
           }

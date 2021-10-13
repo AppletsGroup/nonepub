@@ -14,6 +14,7 @@ import { EditorView } from 'prosemirror-view'
 import { selectionToRect } from '@/core/utils/selection-to-rect'
 import { Placement } from '@/core/utils/position'
 import ColorPalette from './color-palette'
+import { isMarkActive } from '@/core/utils/core'
 
 export interface BubbleMenuContextMenuItem {
   type: 'contextmenu'
@@ -93,7 +94,7 @@ export class BubbleMenuExtension extends Extension {
             type: 'button',
             icon: 'bold',
             name: '加粗',
-            isActive: false,
+            isActive: isMarkActive({ state, markType: 'strong' }),
             onClick: () => {
               this.editor.commandChain.toggleBold().focus().run()
             },
@@ -102,7 +103,7 @@ export class BubbleMenuExtension extends Extension {
             type: 'button',
             icon: 'strikethrough',
             name: '删除线',
-            isActive: false,
+            isActive: isMarkActive({ state, markType: 'strike' }),
             onClick: () => {
               this.editor.commandChain.toggleStrike().focus().run()
             },
@@ -111,7 +112,7 @@ export class BubbleMenuExtension extends Extension {
             type: 'dropdown',
             icon: 'font-color',
             name: '字体颜色',
-            isActive: false,
+            isActive: isMarkActive({ state, markType: 'text_color' }),
             onClick: () => {},
             content: <ColorPalette mode="default" />,
           },
@@ -119,7 +120,10 @@ export class BubbleMenuExtension extends Extension {
             type: 'dropdown',
             icon: 'mark-pen-line',
             name: '背景颜色',
-            isActive: false,
+            isActive: isMarkActive({
+              state,
+              markType: 'text_background_color',
+            }),
             onClick: () => {},
             content: <ColorPalette mode="light" />,
           },
@@ -127,14 +131,16 @@ export class BubbleMenuExtension extends Extension {
             type: 'button',
             icon: 'link',
             name: '超链接',
-            isActive: false,
-            onClick: () => {},
+            isActive: isMarkActive({ state, markType: 'link' }),
+            onClick: () => {
+              this.editor.commandChain.addLinkToSelection().run()
+            },
           },
           {
             type: 'button',
             icon: 'underline',
             name: '下划线',
-            isActive: false,
+            isActive: isMarkActive({ state, markType: 'underline' }),
             onClick: () => {
               this.editor.commandChain.toggleUnderline().focus().run()
             },
@@ -143,7 +149,7 @@ export class BubbleMenuExtension extends Extension {
             type: 'button',
             icon: 'italic',
             name: '斜体',
-            isActive: false,
+            isActive: isMarkActive({ state, markType: 'em' }),
             onClick: () => {
               this.editor.commandChain.toggleItalic().focus().run()
             },
@@ -152,8 +158,10 @@ export class BubbleMenuExtension extends Extension {
             type: 'button',
             icon: 'code-s-slash-line',
             name: '行内代码',
-            isActive: false,
-            onClick: () => {},
+            isActive: isMarkActive({ state, markType: 'code' }),
+            onClick: () => {
+              this.editor.commandChain.toggleInlineCode().focus().run()
+            },
           },
         ],
         placement: {

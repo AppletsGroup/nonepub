@@ -14,6 +14,7 @@ import { calculatePosition, Placement, Rect } from '@/core/utils/position'
 import Icon from '@/react/ui/icon'
 import { useOnClickOutside } from '@/react/hooks/use-on-click-outside'
 import { ContextMenu, ContextMenuItem } from '@/react/ui/context-menu'
+import classNames from 'classnames'
 
 function useBubbleMenuConfig() {
   const extension = useExtension(BubbleMenuExtension)
@@ -183,11 +184,16 @@ export default function BubbleMenu() {
             {menuButtons.map((button) => {
               switch (button.type) {
                 case 'button':
+                  const btnClassName = classNames(
+                    'w-10 h-10 flex items-center justify-center cursor-pointer',
+                    {
+                      'text-gray-600': !button.isActive,
+                      'text-blue-500': button.isActive,
+                    },
+                  )
+
                   return (
-                    <div
-                      className="w-10 h-10 flex items-center justify-center cursor-pointer text-gray-600"
-                      onClick={button.onClick}
-                    >
+                    <div className={btnClassName} onClick={button.onClick}>
                       <Icon name={button.icon} />
                     </div>
                   )
@@ -225,9 +231,17 @@ function DropdownButton({ button }: { button: BubbleMenuDropDownItem }) {
   const [isActive, setIsActive] = useState(false)
   const timerRef = useRef<number | undefined>()
 
+  const btnClassName = classNames(
+    'w-10 h-10 flex items-center justify-center cursor-pointer relative',
+    {
+      'text-gray-600': !button.isActive,
+      'text-blue-500': button.isActive,
+    },
+  )
+
   return (
     <div
-      className="w-10 h-10 flex items-center justify-center cursor-pointer text-gray-600 relative"
+      className={btnClassName}
       ref={btnRef}
       onMouseEnter={() => {
         window.clearTimeout(timerRef.current)
