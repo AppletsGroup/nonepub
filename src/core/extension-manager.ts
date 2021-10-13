@@ -90,21 +90,31 @@ export class ExtensionManager {
 
     const keys = extensions.reduce((prev, curr) => {
       const keys = curr.addKeybindings()
-      return {
-        ...prev,
-        ...Object.fromEntries(
-          Object.entries(keys).map(([key, cmd]): [string, PMCommand] => {
-            return [
-              key,
-              (state, dispatch, view) => {
-                return cmd()({ tr: state.tr, state, dispatch, view })
-              },
-            ]
-          }),
-        ),
+      Object.entries(keys).forEach(([key, cmd]) => {
+        if (prev[key]) {
+          prev[key].push((state, dispatch, view) => {
+            return cmd()({ tr: state.tr, state, dispatch, view })
+          })
+        } else {
+          prev[key] = [
+            (state, dispatch, view) => {
+              return cmd()({ tr: state.tr, state, dispatch, view })
+            },
+          ]
+        }
+      })
+
+      return prev
+    }, {} as Record<string, PMCommand[]>)
+    const shortcut: Record<string, PMCommand> = {}
+    Object.entries(keys).forEach(([key, cmds]) => {
+      if (cmds.length > 1) {
+        shortcut[key] = chainCommands(...cmds)
+      } else if (cmds.length === 1) {
+        shortcut[key] = cmds[0]
       }
-    }, {} as Record<string, PMCommand>)
-    this.shortcut = keys
+    })
+    this.shortcut = shortcut
 
     const rules = extensions.flatMap((ex) => ex.addInputRules())
     this.inputRules = rules
@@ -128,7 +138,7 @@ export class ExtensionManager {
     this.pmPlugins = [
       ...pmPlugins,
       inputRules({ rules }),
-      keymap(keys),
+      keymap(shortcut),
       keymap({
         ...baseKeymap,
         Enter: chainCommands(

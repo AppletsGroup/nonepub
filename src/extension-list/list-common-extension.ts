@@ -1,5 +1,5 @@
 import { Command, CommandReturn } from '@/core/command-manager'
-import { Extension } from '@/core/extension'
+import { Extension, ExtensionNode } from '@/core/extension'
 import { Fragment, NodeRange, NodeType, Slice } from 'prosemirror-model'
 import {
   EditorState,
@@ -9,11 +9,9 @@ import {
 } from 'prosemirror-state'
 import {
   findWrapping,
-  liftTarget,
   canSplit,
   ReplaceAroundStep,
 } from 'prosemirror-transform'
-import * as schemaList from 'prosemirror-schema-list'
 import { transformCommand } from '@/core/utils/command'
 
 function _splitListItem(itemType: NodeType) {
@@ -21,13 +19,21 @@ function _splitListItem(itemType: NodeType) {
     state: EditorState,
     dispatch: ((tr: Transaction<any>) => void) | undefined,
   ) {
+    console.log('split list item', itemType)
     // * 会检测 node 是否存在
     // ? 哪些 Selection 会有 node 属性
     let { $from, $to, node } = state.selection as NodeSelection
-    if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to))
+    if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
+      console.log('split list item', itemType.name, 'false')
       return false
+    }
+
     let grandParent = $from.node(-1)
-    if (grandParent.type != itemType) return false
+    if (grandParent.type != itemType) {
+      console.log('split list item', itemType.name, 'false')
+      return false
+    }
+
     if (
       $from.parent.content.size == 0 &&
       $from.node(-1).childCount == $from.indexAfter(-1)
@@ -87,6 +93,7 @@ function _splitListItem(itemType: NodeType) {
       tr.split($from.pos, 2, types as any)
 
       // ! 拆分之后 修正一下类型 在原来的位置后面
+      console.log('修正')
       tr.setNodeMarkup($from.pos + 2, undefined, {
         checked: false,
       })
@@ -163,9 +170,29 @@ interface WrapInListOptions {
 }
 
 export class ListCommonExtension extends Extension {
+  nodes(): ExtensionNode[] {
+    return [
+      {
+        name: 'list_item',
+        nodeSpec: {
+          parseDOM: [{ tag: 'li' }],
+          toDOM() {
+            return ['li', 0]
+          },
+          defining: true,
+          group: 'block',
+          content: 'paragraph block*',
+        },
+      },
+    ]
+  }
+
   addKeybindings() {
     return {
-      Enter: () => this.editor.command.splitListItem(),
+      Enter: () =>
+        this.editor.command.splitListItem({
+          nodeType: this.editor.schema.nodes.list_item,
+        }),
     }
   }
 
@@ -175,9 +202,9 @@ export class ListCommonExtension extends Extension {
         switch (type) {
           case 'todo_list':
             return 'list-check'
-          case 'ol':
+          case 'ordered_list':
             return 'list-ordered'
-          case 'ul':
+          case 'bullet_list':
             return 'list-unordered'
           default:
             return 'question-line'
@@ -187,9 +214,9 @@ export class ListCommonExtension extends Extension {
         switch (type) {
           case 'todo_list':
             return ''
-          case 'ol':
+          case 'ordered_list':
             return '1. 任意内容'
-          case 'ul':
+          case 'bullet_list':
             return '- 任意内容'
           default:
             return '未知'
@@ -199,9 +226,9 @@ export class ListCommonExtension extends Extension {
         switch (type) {
           case 'todo_list':
             return '任务列表'
-          case 'ol':
+          case 'ordered_list':
             return '有序列表'
-          case 'ul':
+          case 'bullet_list':
             return '无序列表'
           default:
             return '未知'
@@ -265,8 +292,8 @@ export class ListCommonExtension extends Extension {
           return true
         }
       },
-      splitListItem: () => {
-        return splitListItem(this.editor.schema.nodes.todo_item)
+      splitListItem: ({ nodeType }: { nodeType: NodeType }) => {
+        return splitListItem(nodeType)
       },
     }
   }
@@ -276,7 +303,7 @@ declare global {
   namespace XEditor {
     interface AllCommands {
       wrapInList: (options: WrapInListOptions) => CommandReturn
-      splitListItem: () => CommandReturn
+      splitListItem: ({ nodeType }: { nodeType: NodeType }) => CommandReturn
     }
   }
 }

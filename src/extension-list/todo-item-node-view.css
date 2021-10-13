@@ -4,6 +4,10 @@
   vertical-align: middle;
 }
 
+.xx-editor-todo-item > *:first-child {
+  margin-top: 0 !important;
+}
+
 .xx-editor-todo-item--done p {
   @apply line-through text-gray-500;
 }

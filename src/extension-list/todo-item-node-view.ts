@@ -5,7 +5,7 @@ import { NodeSelection } from 'prosemirror-state'
 import { Editor } from '@/core/editor'
 
 export class TodoItemNodeView implements NodeView {
-  dom: HTMLLIElement
+  dom: HTMLDivElement
   contentDOM: HTMLElement
   private checkbox: HTMLInputElement
 
@@ -15,7 +15,7 @@ export class TodoItemNodeView implements NodeView {
     public getPos: boolean | (() => number),
     private editor: Editor,
   ) {
-    this.dom = document.createElement('li')
+    this.dom = document.createElement('div')
     this.dom.className = 'xx-editor-todo-item flex items-start'
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'

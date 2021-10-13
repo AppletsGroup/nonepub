@@ -50,6 +50,15 @@ export class TodoItemExtension extends Extension {
     ]
   }
 
+  addKeybindings() {
+    return {
+      Enter: () =>
+        this.editor.command.splitListItem({
+          nodeType: this.editor.schema.nodes.todo_item,
+        }),
+    }
+  }
+
   addCommands(): Record<string, Command> {
     return {
       toggleTodoItem: (): CommandReturn => {

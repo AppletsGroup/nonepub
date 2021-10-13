@@ -19,6 +19,8 @@ import {
   TodoItemExtension,
   TodoListExtension,
 } from '@/extension-list'
+import { BulletListExtension } from '@/extension-list/bullet-list-extension'
+import { OrderedListExtension } from '@/extension-list/ordered-list-extension'
 import { LocatorExtension } from '@/extension-locator'
 import { ParagraphExtension } from '@/extension-paragaph'
 import { PlaceholderExtension } from '@/extension-placeholder'
@@ -68,14 +70,14 @@ export default function defaultPreset() {
           {
             name: 'wrapInList',
             options: {
-              type: 'ul',
+              type: 'bullet_list',
               attrs: {},
             },
           },
           {
             name: 'wrapInList',
             options: {
-              type: 'ol',
+              type: 'ordered_list',
               attrs: {},
             },
           },
@@ -106,6 +108,8 @@ export default function defaultPreset() {
       new BubbleMenuExtension(),
       new EmojiExtension(),
       new ListCommonExtension(),
+      new OrderedListExtension(),
+      new BulletListExtension(),
       new TodoItemExtension(),
       new TodoListExtension(),
       new PlaceholderExtension(),
