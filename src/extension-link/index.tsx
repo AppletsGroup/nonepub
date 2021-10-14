@@ -172,7 +172,7 @@ export class LinkExtension extends Extension {
     this.addCommandMeta('attachLink', {
       icon: 'link',
       name: '插入链接',
-      markdown: '[]()',
+      markdown: '无',
       shortcut: ['command', 'k'],
     })
 

@@ -55,7 +55,7 @@ export class QuickInsertExtension extends Extension {
           name = meta.name(item.options)
         }
 
-        if (typeof meta.shortcut === 'string') {
+        if (Array.isArray(meta.shortcut)) {
           shortcut = meta.shortcut
         } else if (typeof meta.shortcut === 'function') {
           shortcut = meta.shortcut(item.options)

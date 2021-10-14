@@ -1,15 +1,26 @@
+import { Command, CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionNode, PMKeyBindingFn } from '@/core/extension'
 import { DOMOutputSpec } from 'prosemirror-model'
 
+const HORIZONTAL_RULE: 'horizontal_rule' = 'horizontal_rule'
+
 const hrDOM: DOMOutputSpec = ['hr']
 
+declare global {
+  namespace XEditor {
+    interface AllCommands {
+      addHorizontalRule: () => CommandReturn
+    }
+  }
+}
+
 export class HorizontalRuleExtension extends Extension {
-  name = 'horizontal_rule'
+  name = HORIZONTAL_RULE
 
   nodes(): ExtensionNode[] {
     return [
       {
-        name: 'horizontal_rule',
+        name: HORIZONTAL_RULE,
         nodeSpec: {
           group: 'block',
           parseDOM: [{ tag: 'hr' }],
@@ -21,19 +32,33 @@ export class HorizontalRuleExtension extends Extension {
     ]
   }
 
-  addKeyBindings(): Record<string, PMKeyBindingFn> {
+  addCommands(): Record<string, Command> {
+    this.addCommandMeta('addHorizontalRule', {
+      icon: 'separator',
+      name: '分隔线',
+      markdown: '无',
+      shortcut: ['command', 'shift', '-'],
+    })
+
     return {
-      'Mod-_': (state, dispatch) => {
-        dispatch &&
-          dispatch(
-            state.tr
+      addHorizontalRule: () => {
+        return ({ state, tr, dispatch, view }) => {
+          dispatch?.(
+            tr
               .replaceSelectionWith(
-                this.editor.schema.nodes.horizontal_rule.create(),
+                this.editor.schema.nodes[HORIZONTAL_RULE].create(),
               )
               .scrollIntoView(),
           )
-        return true
+          return true
+        }
       },
+    }
+  }
+
+  addKeybindings(): Record<string, () => CommandReturn> {
+    return {
+      'Mod-Shift--': () => this.editor.command.addHorizontalRule(),
     }
   }
 }

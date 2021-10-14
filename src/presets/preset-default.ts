@@ -98,6 +98,9 @@ export default function defaultPreset(
           {
             name: 'setCodeBlock',
           },
+          {
+            name: 'addHorizontalRule',
+          },
         ],
       }),
       new CodeExtension(),

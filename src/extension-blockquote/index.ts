@@ -39,7 +39,7 @@ export class BlockquoteExtension extends Extension {
 
   addKeybindings() {
     return {
-      'Ctrl->': () => this.editor.command.toggleBlockquote(),
+      'Mod-Shift-9': () => this.editor.command.toggleBlockquote(),
     }
   }
 

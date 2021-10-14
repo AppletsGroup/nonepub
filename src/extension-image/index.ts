@@ -25,6 +25,7 @@ import { EditorView } from 'prosemirror-view'
 declare global {
   namespace XEditor {
     interface AllCommands {
+      triggerUploadImage: () => CommandReturn
       uploadImage: (file: File) => CommandReturn
       alignLeft: () => CommandReturn
       alignCenter: () => CommandReturn
@@ -192,8 +193,8 @@ export class ImageExtension extends Extension {
     this.addCommandMeta('triggerUploadImage', {
       icon: 'file-upload-line',
       name: '上传图片',
-      markdown: '',
-      shortcut: ['command', 'shift', 'xxx'],
+      markdown: '无',
+      shortcut: ['command', 'shift', 'u'],
     })
 
     const createAlignCommand = (
@@ -238,6 +239,13 @@ export class ImageExtension extends Extension {
           return true
         }
       },
+    }
+  }
+
+  addKeybindings(): Record<string, () => CommandReturn> {
+    return {
+      'Mod-Shift-u': () => this.editor.command.triggerUploadImage(),
+      'Mod-Shift-U': () => this.editor.command.triggerUploadImage(),
     }
   }
 

@@ -234,7 +234,16 @@ export class ListCommonExtension extends Extension {
             return '未知'
         }
       },
-      shortcut: ({ type }: WrapInListOptions) => [],
+      shortcut: ({ type }: WrapInListOptions) => {
+        switch (type) {
+          case 'ordered_list':
+            return ['command', 'shift', '7']
+          case 'bullet_list':
+            return ['command', 'shift', '8']
+          default:
+            return []
+        }
+      },
     })
 
     return {
