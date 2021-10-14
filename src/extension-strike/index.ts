@@ -1,6 +1,5 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionMark } from '@/core/extension'
-import { markInputRule } from '@/core/plugins/inputrules'
 
 declare global {
   namespace XEditor {
@@ -36,13 +35,6 @@ export class StrikeExtension extends Extension {
   }
 
   addCommands() {
-    // this.addCommandMeta('toggleBold', {
-    //   icon: 'bold',
-    //   name: '加粗',
-    //   markdown: '',
-    //   shortcut: [],
-    // })
-
     return {
       toggleStrike: () => {
         return this.editor.command.toggleMark(this.editor.schema.marks.strike)
@@ -52,8 +44,8 @@ export class StrikeExtension extends Extension {
 
   addKeybindings() {
     return {
-      'Shift-Mod-s': () => this.editor.command.toggleStrike(),
-      'Shift-Mod-S': () => this.editor.command.toggleStrike(),
+      'Mod-Shift-s': () => this.editor.command.toggleStrike(),
+      'Mod-Shift-S': () => this.editor.command.toggleStrike(),
     }
   }
 }

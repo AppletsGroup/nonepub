@@ -68,7 +68,7 @@ export class HeadingExtension extends Extension {
   addKeybindings() {
     const bindings: Record<string, () => CommandReturn> = {}
     for (let i = 0; i <= 6; i++) {
-      bindings[`Shift-Ctrl-${i}`] = () =>
+      bindings[`Mod-Shift-${i}`] = () =>
         this.editor.command.setHeading({ level: i })
     }
     return bindings

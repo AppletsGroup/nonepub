@@ -1,11 +1,16 @@
+import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionNode } from '@/core/extension'
 import { InputRule, wrappingInputRule } from 'prosemirror-inputrules'
 
+const ORDERD_LIST: 'ordered_list' = 'ordered_list'
+
 export class OrderedListExtension extends Extension {
+  name = ORDERD_LIST
+
   nodes(): ExtensionNode[] {
     return [
       {
-        name: 'ordered_list',
+        name: ORDERD_LIST,
         nodeSpec: {
           group: 'block',
           content: 'list_item+',
@@ -32,11 +37,18 @@ export class OrderedListExtension extends Extension {
     ]
   }
 
+  addKeybindings(): Record<string, () => CommandReturn> {
+    return {
+      'Mod-Shift-7': () =>
+        this.editor.command.wrapInList({ type: ORDERD_LIST, attrs: {} }),
+    }
+  }
+
   addInputRules(): InputRule[] {
     return [
       wrappingInputRule(
         /^(\d+)\.\s$/,
-        this.editor.schema.nodes.ordered_list,
+        this.editor.schema.nodes[ORDERD_LIST],
         (match) => ({ order: Number(match[1]) }),
         (match, node) =>
           node.childCount + node.attrs.order === Number(match[1]),

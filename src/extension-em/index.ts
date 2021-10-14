@@ -39,12 +39,6 @@ export class EmExtension extends Extension {
   }
 
   addCommands() {
-    // this.addCommandMeta('toggleStrikeThrough', {
-    //   icon: 'bold',
-    //   name: '加粗',
-    //   markdown: '',
-    //   shortcut: [],
-    // })
     return {
       toggleItalic: () => {
         return this.editor.command.toggleMark(this.editor.schema.marks.em)

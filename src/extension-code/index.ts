@@ -48,7 +48,10 @@ export class CodeExtension extends Extension {
 
   addKeybindings() {
     return {
-      'Mod-`': () => {
+      'Mod-Shift-m': () => {
+        return this.editor.command.toggleMark(this.editor.schema.marks.code)
+      },
+      'Mod-Shift-M': () => {
         return this.editor.command.toggleMark(this.editor.schema.marks.code)
       },
     }

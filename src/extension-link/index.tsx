@@ -156,7 +156,14 @@ export class LinkExtension extends Extension {
   addKeybindings(): Record<string, () => CommandReturn> {
     return {
       'Mod-k': () => {
-        return this.editor.command.attachLink()
+        const cmd: CommandReturn = (opts) => {
+          if (!opts.tr.selection.empty) {
+            return this.editor.command.addLinkToSelection()(opts)
+          }
+          return this.editor.command.attachLink()(opts)
+        }
+
+        return cmd
       },
     }
   }
