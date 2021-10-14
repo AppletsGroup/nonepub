@@ -11,13 +11,13 @@ import {
   PluginKey,
 } from 'prosemirror-state'
 import { ImageView } from './image'
-import { ImageToolbar } from './image-toolbar'
 import { findChild, findDomAtPos } from '@/core/utils/node'
 import {
   FileManager,
   FileState,
   FileStateChangeListener,
   FileStateListener,
+  FileUploader,
 } from '@/core/utils/file-manager'
 import { BubbleMenuConfig } from '@/extension-bubble-menu'
 import { EditorView } from 'prosemirror-view'
@@ -48,10 +48,11 @@ export class ImageExtension extends Extension {
 
   private emitter = new EventEmitter()
 
-  private fileManager = new FileManager()
+  private fileManager: FileManager
 
-  constructor() {
+  constructor({ uploader }: { uploader?: FileUploader } = {}) {
     super()
+    this.fileManager = new FileManager({ uploader })
     this.fileManager.onNewFile(this.insertImage)
   }
 
@@ -75,18 +76,33 @@ export class ImageExtension extends Extension {
             {
               tag: 'img[src]',
               getAttrs(dom) {
+                const d = dom as HTMLElement
                 return {
-                  src: (dom as HTMLElement).getAttribute('src'),
-                  title: (dom as HTMLElement).getAttribute('title'),
-                  alt: (dom as HTMLElement).getAttribute('alt'),
-                  id: (dom as HTMLElement).getAttribute('id'),
+                  src: d.getAttribute('src'),
+                  title: d.getAttribute('title'),
+                  alt: d.getAttribute('alt'),
+                  id: d.getAttribute('id'),
+                  width: d.getAttribute('data-width'),
+                  height: d.getAttribute('data-height'),
+                  align: d.getAttribute('data-align'),
                 }
               },
             },
           ],
           toDOM(node) {
-            let { src, alt, title, id } = node.attrs
-            return ['img', { src, alt, title, id }]
+            let { src, alt, title, id, width, height, align } = node.attrs
+            return [
+              'img',
+              {
+                src,
+                alt,
+                title,
+                id,
+                'data-width': width,
+                'data-height': height,
+                'data-align': align,
+              },
+            ]
           },
         },
       },

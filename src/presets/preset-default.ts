@@ -1,4 +1,5 @@
 import { EditorOptions } from '@/core/editor'
+import { FileUploader } from '@/core/utils/file-manager'
 import { BaseExtension } from '@/extension-base'
 import { BackgroundColorExtension } from '@/extension-bg-color'
 import { BlockquoteExtension } from '@/extension-blockquote'
@@ -33,7 +34,10 @@ import { SuggestionExtension } from '@/extension-suggestion'
 import { UnderlineExtension } from '@/extension-underline'
 
 export default function defaultPreset(
-  defaultContent?: EditorOptions['defaultContent'],
+  defaultContent: EditorOptions['defaultContent'] | undefined,
+  config: {
+    uploader: FileUploader
+  },
 ) {
   const options: Partial<EditorOptions> = {
     defaultContent,
@@ -101,7 +105,7 @@ export default function defaultPreset(
       new EmExtension(),
       new HarkBreakExtension(),
       new HorizontalRuleExtension(),
-      new ImageExtension(),
+      new ImageExtension({ uploader: config.uploader }),
       new LinkExtension(),
       new StrongExtension(),
       new StrikeExtension(),

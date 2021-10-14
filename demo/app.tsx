@@ -7,10 +7,25 @@ import {
 import { useCallback } from 'react'
 import html from './content/index.html'
 
-const options = defaultPreset({
-  type: 'html',
-  value: html,
-})
+const options = defaultPreset(
+  {
+    type: 'html',
+    value: html,
+  },
+  {
+    uploader: (file) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const uri = URL.createObjectURL(file)
+          console.log('upload uri', uri)
+          resolve({
+            src: uri,
+          })
+        }, 1000)
+      })
+    },
+  },
+)
 
 export default function App() {
   const editor = useEditor(options)

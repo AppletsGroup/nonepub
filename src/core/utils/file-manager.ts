@@ -20,13 +20,27 @@ export type FileStateListener = (
   onFileStateChange: FileStateChangeListener,
 ) => void
 
+export type FileUploader = (file: File) => Promise<{ src: string }>
+
+const dumbUploader = (file: File) => {
+  return Promise.resolve({
+    src: URL.createObjectURL(file),
+  })
+}
+
 export class FileManager {
   private input: HTMLInputElement
   private listeners: FileStateListener[] = []
   private stateListenerMap = new Map<string, ((state: FileState) => void)[]>()
+  private uploader: FileUploader
 
-  constructor() {
+  constructor(
+    { uploader }: { uploader?: FileUploader } = {
+      uploader: dumbUploader,
+    },
+  ) {
     this.input = this.createInput()
+    this.uploader = uploader || dumbUploader
   }
 
   private getPreview(
@@ -76,11 +90,12 @@ export class FileManager {
       status: 'uploading',
     }
     this.triggerFileStateChange(state)
-    await sleep(1000)
+    const { src } = await this.uploader(state.file)
     state = {
       ...state,
       status: 'uploaded',
       progress: 100,
+      url: src,
     }
     this.triggerFileStateChange(state)
   }
