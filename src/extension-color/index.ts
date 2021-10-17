@@ -1,6 +1,7 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionMark } from '@/core/extension'
 import { TextSelection } from 'prosemirror-state'
+import './index.css'
 
 declare global {
   namespace XEditor {
@@ -38,6 +39,7 @@ export class ColorExtension extends Extension {
             return [
               'span',
               {
+                class: 'text-color',
                 style: `color: ${mark.attrs.color}`,
               },
               0,

@@ -7,6 +7,7 @@ import {
   lift as pmLift,
   selectParentNode as pmSelectParentNode,
   setBlockType as pmSetBlockType,
+  deleteSelection as pmDeleteSelection,
 } from 'prosemirror-commands'
 import { redo as pmRedo, undo as pmUndo } from 'prosemirror-history'
 import { undoInputRule as pmUndoInputRule } from 'prosemirror-inputrules'
@@ -101,4 +102,8 @@ export function setBlockType<S extends Schema = any>(
   attrs?: { [key: string]: any },
 ) {
   return transformCommand(pmSetBlockType(nodeType, attrs))
+}
+
+export function deleteSelection() {
+  return transformCommand(pmDeleteSelection)
 }

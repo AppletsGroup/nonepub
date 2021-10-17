@@ -149,7 +149,7 @@ export class ExtensionManager {
         ),
       }),
       dropCursor(),
-      // gapCursor(),
+      gapCursor(),
       history(),
       new Plugin({
         props: {

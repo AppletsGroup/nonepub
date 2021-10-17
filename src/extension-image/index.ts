@@ -73,6 +73,7 @@ export class ImageExtension extends Extension {
           },
           group: 'block',
           draggable: true,
+          allowGapCursor: true,
           parseDOM: [
             {
               tag: 'img[src]',
@@ -390,6 +391,15 @@ export class ImageExtension extends Extension {
             name: '右对齐',
             onClick: () => {
               this.editor.commandChain.alignRight().run()
+            },
+          },
+          {
+            type: 'button',
+            icon: 'delete-bin-2-line',
+            isActive: false,
+            name: '删除',
+            onClick: () => {
+              this.editor.commandChain.deleteSelection().run()
             },
           },
         ],

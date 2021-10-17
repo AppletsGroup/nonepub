@@ -12,6 +12,7 @@ import {
   undo,
   undoInputRule,
   setBlockType,
+  deleteSelection,
 } from '@/core/utils/command'
 import { Fragment, Node } from 'prosemirror-model'
 
@@ -29,6 +30,7 @@ declare global {
       undo: typeof undo
       undoInputRule: typeof undoInputRule
       setBlockType: typeof setBlockType
+      deleteSelection: typeof deleteSelection
       replaceWith: (
         from: number,
         to: number,
@@ -74,6 +76,7 @@ export class CommandExtension extends Extension {
           return true
         }
       },
+      deleteSelection,
     }
   }
 }
