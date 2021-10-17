@@ -192,6 +192,11 @@ export class BubbleMenuExtension extends Extension {
         key: bubbleMenuPluginKey,
         view() {
           const update = (view: EditorView) => {
+            if (!view.editable) {
+              ext.emitter.emit('update', undefined)
+              return
+            }
+
             const configs = ext.editor.extensions
               .map((e) => e.getBubbleMenuConfig?.({ state: view.state, view }))
               .filter((config): config is BubbleMenuConfig => !!config)

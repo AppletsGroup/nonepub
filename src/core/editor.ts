@@ -13,6 +13,7 @@ export interface EditorOptions {
     value: string
     type: 'markdown' | 'html'
   }
+  readonly?: boolean
 }
 
 export class Editor {
@@ -90,6 +91,7 @@ export class Editor {
       doc,
     })
     this.editorView = new EditorView(this.options.el, {
+      editable: () => !this.options.readonly,
       state,
       nodeViews: this.extensionManager.nodeViews,
       dispatchTransaction(tr) {

@@ -37,10 +37,12 @@ export default function defaultPreset(
   defaultContent: EditorOptions['defaultContent'] | undefined,
   config: {
     uploader: FileUploader
+    readonly: boolean
   },
 ) {
   const options: Partial<EditorOptions> = {
     defaultContent,
+    readonly: config.readonly,
     extensions: [
       new StateExtension(),
       new ReactExtension(),

@@ -24,6 +24,7 @@ const options = defaultPreset(
         }, 1000)
       })
     },
+    readonly: false,
   },
 )
 

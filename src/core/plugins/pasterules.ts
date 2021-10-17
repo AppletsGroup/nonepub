@@ -51,7 +51,7 @@ export function pasteRules(options: PasteRulesOptions) {
 
       handleDOMEvents: {
         paste(view, event) {
-          if (view.props.editable?.(view.state)) {
+          if (!view.props.editable?.(view.state)) {
             return false
           }
 
