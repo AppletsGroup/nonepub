@@ -36,7 +36,7 @@ const Separator = styled.div`
   background: rgba(32, 36, 38, 0.1);
 `
 
-export function useLinkState() {
+function useLinkState() {
   const linkExtension = useExtension(LinkExtension)
   const [state, setState] = useState(linkExtension.getState())
   useEffect(() => {

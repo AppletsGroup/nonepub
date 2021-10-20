@@ -24,8 +24,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'noonepub',
-      fileName: (format) => `noonepub.${format}.js`,
+      name: 'nonepub',
+      fileName: (format) => `nonepub.${format}.js`,
     },
     rollupOptions: {
       external: ['react'],

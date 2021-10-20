@@ -94,7 +94,7 @@ declare global {
   }
 }
 
-interface LinkPluginState {
+export interface LinkPluginState {
   activeLink: {
     from: number
     to: number

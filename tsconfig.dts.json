@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -14,10 +15,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "plugins": [{ "transform": "typescript-transform-paths", "afterDeclarations": true }]
   },
-  "include": ["./src", "./demo"]
+  "include": ["./src/index.ts"]
 }
