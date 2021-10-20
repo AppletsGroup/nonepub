@@ -21,6 +21,21 @@ function htmlImportPlugin() {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, 'src/index.ts'),
+      name: 'noonepub',
+      fileName: (format) => `noonepub.${format}.js`,
+    },
+    rollupOptions: {
+      external: ['react'],
+      output: {
+        globals: {
+          react: 'react',
+        },
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
