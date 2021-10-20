@@ -17,11 +17,6 @@ export class StateExtension extends Extension {
         view(editorView) {
           return {
             update: (view, prevState) => {
-              console.log('state update')
-              if (!view.state.selection.eq(prevState.selection)) {
-                console.log('selection change', view.state.selection)
-              }
-
               self.emitter.emit('change', {
                 state: view.state,
                 prevState,

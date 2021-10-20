@@ -85,8 +85,6 @@ export class TodoExtension extends Extension {
 
     return {
       wrapInTodo: () => {
-        console.log('wrapintodo')
-        console.log('wrapintodo', this.editor.schema.nodes.todo)
         return this.editor.command.setBlockType(this.editor.schema.nodes.todo)
       },
       toggleTodoItem: (): CommandReturn => {

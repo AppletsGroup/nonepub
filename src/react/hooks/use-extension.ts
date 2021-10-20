@@ -13,7 +13,6 @@ export function useExtension<ExtensionType extends Extension>(
     (ex) => (ex as any).constructor === ExtensionCls,
   )
   if (!extension) {
-    console.log('editor.extensions', editor.extensions, ExtensionCls)
     throw new Error('can not find extension')
   }
   return extension as ExtensionType

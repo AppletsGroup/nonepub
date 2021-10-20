@@ -205,8 +205,6 @@ export function calculatePosition(options: CalculatePositionOptions): Position {
   const x = calcHorizontalPosition(options)
   const y = calcVerticalPosition(options)
 
-  console.log('calc x y', x, y, options)
-
   return {
     x,
     y,

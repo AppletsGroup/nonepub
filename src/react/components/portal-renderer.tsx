@@ -16,8 +16,6 @@ export function PortalRenderer() {
     portalContainer.onUpdate(onPortalUpdate)
   }, [onPortalUpdate, portalContainer])
 
-  console.log('portal renderer rerender')
-
   return (
     <>
       {Array.from(portalContainer.portalMap.entries()).map(

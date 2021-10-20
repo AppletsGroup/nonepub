@@ -237,8 +237,6 @@ export class CodeBlockExtension extends ExtensionWithState<
     ) {
       const pos = pluginState.activeNodePos
 
-      console.log('extension code block', pos)
-
       return {
         items: [
           {
@@ -248,10 +246,7 @@ export class CodeBlockExtension extends ExtensionWithState<
         ],
         getDomRef: ({ view }) => {
           const el = findDomAtPos(pos, view)
-          console.log(
-            'block get dom ref',
-            (el as HTMLElement).querySelector('.lang-indicator'),
-          )
+
           return (el as HTMLElement).querySelector('.lang-indicator')!
         },
         placement: {

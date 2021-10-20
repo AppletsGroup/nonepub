@@ -65,7 +65,6 @@ export function DragHandle() {
         )
 
         const coords = editor.editorView.coordsAtPos(selection.from)
-        console.log('show pos', node, depth, selection.empty, coords)
         const rect = activeNode.node.getBoundingClientRect()
         const target = {
           x: rect.x,

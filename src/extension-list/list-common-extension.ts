@@ -19,18 +19,15 @@ function _splitListItem(itemType: NodeType) {
     state: EditorState,
     dispatch: ((tr: Transaction<any>) => void) | undefined,
   ) {
-    console.log('split list item', itemType)
     // * 会检测 node 是否存在
     // ? 哪些 Selection 会有 node 属性
     let { $from, $to, node } = state.selection as NodeSelection
     if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
-      console.log('split list item', itemType.name, 'false')
       return false
     }
 
     let grandParent = $from.node(-1)
     if (grandParent.type != itemType) {
-      console.log('split list item', itemType.name, 'false')
       return false
     }
 
@@ -93,7 +90,6 @@ function _splitListItem(itemType: NodeType) {
       tr.split($from.pos, 2, types as any)
 
       // ! 拆分之后 修正一下类型 在原来的位置后面
-      console.log('修正')
       tr.setNodeMarkup($from.pos + 2, undefined, {
         checked: false,
       })

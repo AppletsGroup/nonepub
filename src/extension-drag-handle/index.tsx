@@ -120,7 +120,6 @@ export class DragHandleExtension extends Extension {
     view: EditorView
   }): BubbleMenuConfig | undefined {
     const state = dragHandlePluginKey.getState(view.state)
-    console.log('drag handle bubble menu')
 
     if (state && state.activeNode && state.isContextMenuActive) {
       return {
@@ -189,7 +188,7 @@ export class DragHandleExtension extends Extension {
         },
       }
     }
-    console.log('drag handle bubble menu here')
+
     return undefined
   }
 

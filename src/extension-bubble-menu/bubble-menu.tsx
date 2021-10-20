@@ -21,7 +21,6 @@ function useBubbleMenuConfig() {
   const [config, setConfig] = useState<BubbleMenuConfig>()
   useEffect(() => {
     const update = (config: BubbleMenuConfig) => {
-      console.log('bubble config update')
       setConfig(config)
     }
     const cancel = extension.onUpdate(update)
@@ -57,7 +56,6 @@ function Popup(props: React.PropsWithChildren<PopupProps>) {
   useEffect(() => {
     const id = window.requestAnimationFrame(() => {
       if (popupRef.current && props.visible && props.children) {
-        console.log('container', popupRef.current.offsetParent)
         const position = calculatePosition({
           popup: popupRef.current.getBoundingClientRect(),
           target: props.target?.getBoundingClientRect() ?? INVISIBLE_RECT,
@@ -124,7 +122,6 @@ export default function BubbleMenu() {
     }
   } else if (bubbleMenuConfig?.getDomRef) {
     const dom = bubbleMenuConfig.getDomRef({ view: editor.editorView })
-    console.log('get dom ref', dom, dom.getBoundingClientRect())
     isActive = true
     location = {
       rect: dom.getBoundingClientRect(),

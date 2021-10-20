@@ -68,7 +68,6 @@ export function LanguageSelect() {
   }, [keyword, activeLang])
 
   useOnClickOutside(nodeRef, () => {
-    console.log('click outside')
     editor.editorView.dispatch(
       editor.editorView.state.tr.setMeta(codeBlockPluginKey, {
         action: 'SELECT_LANG_DISMISS',

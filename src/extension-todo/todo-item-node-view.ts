@@ -48,7 +48,6 @@ export class TodoItemNodeView implements NodeView {
     if (node.type !== this.node.type) return false
     this.node = node
     if (this.node.attrs.checked) {
-      console.log('add class list')
       this.checkbox.checked = true
       this.dom.classList.add('xx-editor-todo-item--done')
     } else {

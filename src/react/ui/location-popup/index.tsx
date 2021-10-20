@@ -74,7 +74,6 @@ function useMyPoper(
             fn: (ref) => {
               const { state } = ref
               const elements = Object.keys(state.elements)
-              console.log('before force update set state')
               setState({
                 styles: Object.fromEntries(
                   elements.map((el) => {
@@ -108,12 +107,6 @@ function useMyPoper(
 
   useEffect(() => {
     const id = window.requestAnimationFrame(() => {
-      console.log(
-        'before force update',
-        el?.getBoundingClientRect(),
-        el?.innerHTML,
-        reference.getBoundingClientRect(),
-      )
       popper.current?.forceUpdate()
     })
 
@@ -159,16 +152,6 @@ export default function LocationPopup(props: LocationPopupProps) {
     props.location?.rect.height,
   ])
 
-  // useEffect(() => {
-  //   console.log('trigger use effect')
-  //   setVirtualTrigger({
-  //     getBoundingClientRect() {
-  //       console.log('force update', props.location.rect)
-  //       return props.location.rect
-  //     },
-  //   })
-  // }, [props.location.rect])
-
   const [element, setElement] = useState<HTMLElement | null>(null)
   const { styles, forceUpdate, update } = useMyPoper(virtualTrigger, element, {
     placement: props.placement || 'auto-start',
@@ -197,25 +180,4 @@ export default function LocationPopup(props: LocationPopupProps) {
       {props.children}
     </div>
   ) : null
-
-  // return transitions(({ opacity }, item) => {
-  //   return (
-  //     item && (
-  //       <animated.div
-  //         ref={(el: HTMLElement | null) => {
-  //           console.log('location popup set element', el)
-  //           setElement(el)
-  //         }}
-  //         className="location-popup"
-  //         style={{
-  //           position: 'fixed',
-  //           opacity: opacity,
-  //           ...styles.popper,
-  //         }}
-  //       >
-  //         {props.children}
-  //       </animated.div>
-  //     )
-  //   )
-  // })
 }

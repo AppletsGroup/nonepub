@@ -131,7 +131,6 @@ export class ImageExtension extends Extension {
     })
 
     onFileStateChange((fileState) => {
-      console.log('on file state change', fileState)
       switch (fileState.status) {
         case 'preview':
           {
@@ -207,7 +206,6 @@ export class ImageExtension extends Extension {
             tr.selection instanceof NodeSelection &&
             tr.selection.node.type === this.editor.schema.nodes.image
           ) {
-            console.log('change align')
             tr = tr.setNodeMarkup(tr.selection.anchor, undefined, {
               ...tr.selection.node.attrs,
               align,
@@ -235,7 +233,6 @@ export class ImageExtension extends Extension {
       uploadImage: (file: File): CommandReturn => {
         return (props) => {
           props.dispatch?.(props.tr)
-          console.log('upload file')
           this.fileManager.uploadFile(file)
           return true
         }
@@ -380,7 +377,6 @@ export class ImageExtension extends Extension {
             isActive: false,
             name: '居中对齐',
             onClick: () => {
-              console.log('center')
               this.editor.commandChain.alignCenter().run()
             },
           },
@@ -405,7 +401,6 @@ export class ImageExtension extends Extension {
         ],
         getDomRef: () => {
           const ref = (dom as HTMLElement).querySelector('img')!
-          console.log('get ref ok?', ref)
           return ref
         },
         placement: {
