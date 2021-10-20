@@ -2,6 +2,14 @@
 
 ## 使用方法
 
+```html
+<!-- 添加图标 -->
+<link
+  rel="stylesheet"
+  href="//at.alicdn.com/t/font_2678303_ixhym2k95c.css"
+/>
+```
+
 ```js
 import {
   useEditor,
