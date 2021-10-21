@@ -64,6 +64,7 @@ export class CodeBlockExtension extends ExtensionWithState<
           group: 'block',
           code: true,
           defining: true,
+          allowGapCursor: true,
           parseDOM: [
             {
               tag: 'pre',
