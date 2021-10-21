@@ -20,7 +20,10 @@ function InputWithIcon(props: InputWithIconProps, ref: any) {
         ref={ref}
         placeholder={props.placeholder}
         className="flex outline-none border-none placeholder-gray-400"
-        style={{ flex: '1' }}
+        style={{
+          flex: '1',
+          ...props.style,
+        }}
         onKeyDown={props.onKeyDown}
         onKeyPress={(e) => {
           e.stopPropagation()

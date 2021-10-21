@@ -1,34 +1,11 @@
 import { LinkExtension, LinkStatus } from '@/extension-link'
-import {
-  InputHTMLAttributes,
-  KeyboardEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useEditorContext } from '@/react/hooks/use-editor-context'
 import { useExtension } from '@/react/hooks/use-extension'
-import { useEditorState } from '@/react/hooks/use-editor-state'
-import UiVirtualTriggerPopup from '@/react/ui/virtual-trigger-popup'
-import styled, { CSSProperties } from 'styled-components'
-import { selectionToRect } from '@/core/utils/selection-to-rect'
-import UiBubbleMenu, { BubbleMenuItem } from '@/react/ui/bubble-menu'
+import styled from 'styled-components'
+import { BubbleMenuItem } from '@/react/ui/bubble-menu'
 import UiCard from '@/react/ui/card'
-import { TextSelection } from 'prosemirror-state'
-import Icon from '@/react/ui/icon'
-import { cursorLocator, useLocator } from '@/extension-locator'
-import LocationPopup from '@/react/ui/location-popup'
-
-type MenuItem = BubbleMenuItem
-
-const Wrapper = styled.div`
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08), 0px 0px 2px rgba(0, 0, 0, 0.06);
-  border-radius: 4px;
-  background-color: #fff;
-  padding: 8px;
-`
+import InputWithIcon from '@/react/ui/input-with-icon'
 
 const Separator = styled.div`
   height: 1px;
@@ -51,63 +28,21 @@ function useLinkState() {
   return state!
 }
 
-type InputWithIconProps = {
-  icon: string
-  placeholder?: string
-  style?: CSSProperties
-  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
-  onChange?: (str: string) => void
-  value?: string
-}
-
-const InputWithIconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  font-size: 12px;
-  color: rgba(32, 36, 38, 0.6);
-`
-
-const InputInner = styled.input`
-  outline: none;
-  border: none;
-`
-
-function InputWithIcon(props: InputWithIconProps) {
-  const { icon } = props
-  return (
-    <InputWithIconWrapper style={props.style}>
-      <Icon name={icon} style={{ marginRight: 8 }} />
-      <InputInner
-        placeholder={props.placeholder}
-        style={{ flex: '1' }}
-        onKeyDown={props.onKeyDown}
-        onKeyPress={(e) => {
-          e.stopPropagation()
-        }}
-        onKeyUp={(e) => {
-          e.stopPropagation()
-        }}
-        onChange={(e) => {
-          props.onChange?.(e.target.value)
-        }}
-        onSubmit={(e) => {}}
-        value={props.value}
-      />
-    </InputWithIconWrapper>
-  )
-}
-
-// TODO: 全局的 还是 component 维度的
 export default function EditLink() {
   const { editor } = useEditorContext()
-  const { state, prevState } = useEditorState()
   const linkState = useLinkState()
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   const [href, setHref] = useState('')
   const [text, setText] = useState('')
 
   const url = linkState.activeLink?.mark?.attrs?.href ?? ''
+
+  useEffect(() => {
+    inputRef.current?.focus({
+      preventScroll: true,
+    })
+  }, [])
 
   useEffect(() => {
     setHref(url)
@@ -122,9 +57,10 @@ export default function EditLink() {
   return (
     <UiCard>
       <InputWithIcon
+        ref={inputRef}
         icon="link"
         placeholder="请输入链接"
-        style={{ width: 400 }}
+        style={{ width: 250 }}
         value={href}
         onChange={(_href) => {
           setHref(_href)
@@ -145,7 +81,7 @@ export default function EditLink() {
         <InputWithIcon
           icon="text"
           placeholder="请输入文字"
-          style={{ width: 400 }}
+          style={{ width: 250 }}
           value={text}
           onChange={(_text) => {
             setText(_text)
