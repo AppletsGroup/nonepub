@@ -82,3 +82,8 @@ export function findNodeAtPosition($pos: ResolvedPos) {
 
   return { pos, start, node, end, depth }
 }
+
+export function getLastNode(doc: PMNode) {
+  const $pos = Selection.atEnd(doc)
+  return findNodeAtPosition($pos.$from)
+}
