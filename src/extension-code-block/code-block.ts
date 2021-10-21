@@ -80,6 +80,16 @@ export class CodeBlockView implements NodeView {
       this.incomingChanges = false
     })
     this.cm.on('focus', () => this.forwardSelection())
+    this.cm.on('keydown', (_, event) => {
+      if (event.key === 'Backspace') {
+        if (!this.cm.getValue()) {
+          console.log('remove node')
+          const pos = (this.getPos as () => number)()
+          view.dispatch(view.state.tr.delete(pos, pos + this.node.nodeSize))
+          view.focus()
+        }
+      }
+    })
     this.dom.addEventListener('mouseenter', this.onMouseEnter.bind(this))
     this.dom.addEventListener('mouseleave', this.onMouseLeave.bind(this))
     this.renderToolbar()
@@ -147,6 +157,7 @@ export class CodeBlockView implements NodeView {
   codeMirrorKeymap() {
     const { view } = this
     const mod = /Mac/.test(navigator.platform) ? 'Cmd' : 'Ctrl'
+
     return CodeMirror.normalizeKeyMap({
       Up: () => this.maybeEscape('line', -1),
       Left: () => this.maybeEscape('char', -1),
