@@ -5,6 +5,8 @@ import { InputRule, wrappingInputRule } from 'prosemirror-inputrules'
 const BULLET_LIST: 'bullet_list' = 'bullet_list'
 
 export class BulletListExtension extends Extension {
+  name = BULLET_LIST
+
   nodes(): ExtensionNode[] {
     return [
       {
