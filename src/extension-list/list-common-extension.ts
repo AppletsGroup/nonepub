@@ -166,6 +166,8 @@ interface WrapInListOptions {
 }
 
 export class ListCommonExtension extends Extension {
+  name = 'list_common'
+
   nodes(): ExtensionNode[] {
     return [
       {

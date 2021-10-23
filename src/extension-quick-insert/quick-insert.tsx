@@ -47,7 +47,7 @@ export default function QuickInsert() {
           const next = prev + 3
 
           if (next > quickInsertProps.items.length - 1) {
-            return undefined
+            return prev
           }
 
           return next
@@ -66,7 +66,7 @@ export default function QuickInsert() {
           const next = prev - 3
 
           if (next < 0) {
-            return undefined
+            return prev
           }
 
           return next

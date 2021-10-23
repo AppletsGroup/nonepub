@@ -17,7 +17,6 @@ const Wrapper = styled.div`
   width: 420px;
   padding: 8px;
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 
   &:focus {
