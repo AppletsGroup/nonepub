@@ -54,6 +54,20 @@ export default function App() {
         输出JSON内容
       </button>
       <EditorProvider editor={editor}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div
+            style={{
+              maxWidth: '65ch',
+              padding: '0 32px',
+              fontSize: '0.875rem',
+              lineHeight: 1.7,
+              flexGrow: 1,
+              boxSizing: 'content-box',
+            }}
+          >
+            <div>与编辑器内容对齐</div>
+          </div>
+        </div>
         <EditorContent />
       </EditorProvider>
     </div>
