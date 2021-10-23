@@ -1,12 +1,13 @@
 {
   "name": "@yikeguozi/nonepub",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "prepare": "ts-patch install -s",
     "dev": "vite",
     "build": "tsc && vite build && npm run dts",
     "serve": "vite preview",
-    "dts": "tsc -p ./tsconfig.dts.json"
+    "dts": "tsc -p ./tsconfig.dts.json",
+    "deploy": "npm run build && npm publish"
   },
   "types": "./dist/index.d.ts",
   "files": [
