@@ -235,6 +235,18 @@ export class ListCommonExtension extends Extension {
         markdown: '- 列表内容',
         shortcut: ['command', 'shift', '8'],
       },
+      {
+        icon: 'indent-increase',
+        name: '增加列表缩进',
+        markdown: '',
+        shortcut: ['command', ']'],
+      },
+      {
+        icon: 'indent-decrease',
+        name: '减少列表缩进',
+        markdown: '',
+        shortcut: ['command', '['],
+      },
     ]
   }
 
