@@ -15,7 +15,7 @@ type Props = React.PropsWithChildren<{
 function Card(props: Props, ref: any) {
   return (
     <div
-      className="box-border shadow rounded bg-white"
+      className="box-border shadow rounded bg-white relative"
       ref={ref}
       style={props.style}
       onMouseDown={(e) => {

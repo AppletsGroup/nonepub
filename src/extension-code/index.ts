@@ -1,6 +1,7 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionMark } from '@/core/extension'
 import { markInputRule } from '@/core/plugins/inputrules'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import './styles/index.css'
 
 declare global {
@@ -55,5 +56,16 @@ export class CodeExtension extends Extension {
         return this.editor.command.toggleMark(this.editor.schema.marks.code)
       },
     }
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        name: '行内代码',
+        icon: 'code-s-slash-line',
+        markdown: '`code`',
+        shortcut: ['command', 'shift', 'm'],
+      },
+    ]
   }
 }

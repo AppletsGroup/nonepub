@@ -27,6 +27,7 @@ import { ParagraphExtension } from '@/extension-paragaph'
 import { PlaceholderExtension } from '@/extension-placeholder'
 import { QuickInsertExtension } from '@/extension-quick-insert'
 import { ReactExtension } from '@/extension-react'
+import { ShortcutOverviewExtension } from '@/extension-shortcut-overview'
 import { StateExtension } from '@/extension-state'
 import { StrikeExtension } from '@/extension-strike'
 import { StrongExtension } from '@/extension-strong'
@@ -125,6 +126,7 @@ export default function defaultPreset(
       new TodoItemExtension(),
       new TodoListExtension(),
       new PlaceholderExtension(),
+      new ShortcutOverviewExtension(),
     ],
   }
 

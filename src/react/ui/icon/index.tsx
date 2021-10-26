@@ -4,8 +4,15 @@ type Props = {
   name: string
   style?: CSSProperties
   className?: string
+  onClick?: () => void
 }
 
-export default function Icon({ name, style, className }: Props) {
-  return <span className={`iconfont icon-${name} ${className}`} style={style} />
+export default function Icon({ name, style, className, onClick }: Props) {
+  return (
+    <span
+      className={`iconfont icon-${name} ${className}`}
+      style={style}
+      onClick={onClick}
+    />
+  )
 }

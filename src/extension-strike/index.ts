@@ -1,5 +1,6 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionMark } from '@/core/extension'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 
 declare global {
   namespace XEditor {
@@ -47,5 +48,16 @@ export class StrikeExtension extends Extension {
       'Mod-Shift-s': () => this.editor.command.toggleStrike(),
       'Mod-Shift-S': () => this.editor.command.toggleStrike(),
     }
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'strikethrough',
+        name: '删除线',
+        markdown: '',
+        shortcut: ['command', 'shift', 'S'],
+      },
+    ]
   }
 }

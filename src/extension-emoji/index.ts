@@ -1,5 +1,6 @@
 import { EventEmitter } from '@/core/event-emitter'
 import { Extension } from '@/core/extension'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import {
   createCharMathcer,
   SuggestionMatch,
@@ -50,5 +51,16 @@ export class EmojiExtension extends Extension {
 
   getReactContentComponent() {
     return EmojiPicker
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'question-line',
+        name: 'Emoji',
+        markdown: ':emoji',
+        shortcut: [],
+      },
+    ]
   }
 }
