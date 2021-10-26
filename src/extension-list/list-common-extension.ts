@@ -13,6 +13,10 @@ import {
   ReplaceAroundStep,
 } from 'prosemirror-transform'
 import { transformCommand } from '@/core/utils/command'
+import {
+  sinkListItem as _sinkListItem,
+  liftListItem as _liftListItem,
+} from 'prosemirror-schema-list'
 
 function _splitListItem(itemType: NodeType) {
   return function (
@@ -104,6 +108,14 @@ const splitListItem = (listType: NodeType) => {
   return transformCommand(_splitListItem(listType))
 }
 
+const liftListItem = (type: NodeType) => {
+  return transformCommand(_liftListItem(type))
+}
+
+const sinkListItem = (type: NodeType) => {
+  return transformCommand(_sinkListItem(type))
+}
+
 // TODO: what does this mean
 function isCompatibleContent(one: NodeType, antoher: NodeType): boolean {
   const isCompatible = (one as any).compatibleContent(antoher)
@@ -189,6 +201,14 @@ export class ListCommonExtension extends Extension {
     return {
       Enter: () =>
         this.editor.command.splitListItem({
+          nodeType: this.editor.schema.nodes.list_item,
+        }),
+      'Mod-[': () =>
+        this.editor.command.liftListItem({
+          nodeType: this.editor.schema.nodes.list_item,
+        }),
+      'Mod-]': () =>
+        this.editor.command.sinkListItem({
           nodeType: this.editor.schema.nodes.list_item,
         }),
     }
@@ -302,6 +322,12 @@ export class ListCommonExtension extends Extension {
       splitListItem: ({ nodeType }: { nodeType: NodeType }) => {
         return splitListItem(nodeType)
       },
+      liftListItem: ({ nodeType }: { nodeType: NodeType }) => {
+        return liftListItem(nodeType)
+      },
+      sinkListItem: ({ nodeType }: { nodeType: NodeType }) => {
+        return sinkListItem(nodeType)
+      },
     }
   }
 }
@@ -311,6 +337,8 @@ declare global {
     interface AllCommands {
       wrapInList: (options: WrapInListOptions) => CommandReturn
       splitListItem: ({ nodeType }: { nodeType: NodeType }) => CommandReturn
+      sinkListItem: ({ nodeType }: { nodeType: NodeType }) => CommandReturn
+      liftListItem: ({ nodeType }: { nodeType: NodeType }) => CommandReturn
     }
   }
 }
