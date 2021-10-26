@@ -1,5 +1,6 @@
 import { Command, CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionNode, PMKeyBindingFn } from '@/core/extension'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import { DOMOutputSpec } from 'prosemirror-model'
 
 const HORIZONTAL_RULE: 'horizontal_rule' = 'horizontal_rule'
@@ -60,5 +61,16 @@ export class HorizontalRuleExtension extends Extension {
     return {
       'Mod-Shift--': () => this.editor.command.addHorizontalRule(),
     }
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'separator',
+        name: '分隔线',
+        markdown: '',
+        shortcut: ['command', 'shift', '-'],
+      },
+    ]
   }
 }

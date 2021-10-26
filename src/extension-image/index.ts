@@ -21,6 +21,7 @@ import {
 } from '@/core/utils/file-manager'
 import { BubbleMenuConfig } from '@/extension-bubble-menu'
 import { EditorView } from 'prosemirror-view'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 
 declare global {
   namespace XEditor {
@@ -415,5 +416,16 @@ export class ImageExtension extends Extension {
     }
 
     return undefined
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'file-upload-line',
+        name: '上传图片',
+        markdown: '',
+        shortcut: ['command', 'shift', 'u'],
+      },
+    ]
   }
 }

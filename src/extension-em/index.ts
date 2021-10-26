@@ -1,6 +1,7 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionMark } from '@/core/extension'
 import { markInputRule } from '@/core/plugins/inputrules'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import { toggleMark } from 'prosemirror-commands'
 
 declare global {
@@ -51,5 +52,16 @@ export class EmExtension extends Extension {
       'Mod-i': toggleMark(this.editor.schema.marks.em),
       'Mod-I': toggleMark(this.editor.schema.marks.em),
     }
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'italic',
+        name: '斜体',
+        markdown: '*斜体*',
+        shortcut: ['command', 'I'],
+      },
+    ]
   }
 }

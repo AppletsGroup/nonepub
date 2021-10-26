@@ -1,6 +1,7 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionMark } from '@/core/extension'
 import { markInputRule } from '@/core/plugins/inputrules'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 
 declare global {
   namespace XEditor {
@@ -71,5 +72,16 @@ export class StrongExtension extends Extension {
       'Mod-b': () => this.editor.command.toggleBold(),
       'Mod-B': () => this.editor.command.toggleBold(),
     }
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'bold',
+        name: '加粗',
+        markdown: '**加粗**',
+        shortcut: ['command', 'shift', 'B'],
+      },
+    ]
   }
 }

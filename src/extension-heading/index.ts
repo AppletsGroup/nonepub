@@ -1,5 +1,6 @@
 import { Command, CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionNode } from '@/core/extension'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 import './styles/index.css'
 
@@ -82,6 +83,35 @@ export class HeadingExtension extends Extension {
         this.editor.schema.nodes.heading,
         (match) => ({ level: match[1].length }),
       ),
+    ]
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'h-1',
+        name: '标题1',
+        markdown: '# 标题1',
+        shortcut: ['command', 'shift', '1'],
+      },
+      {
+        icon: 'h-2',
+        name: '标题2',
+        markdown: '## 标题2',
+        shortcut: ['command', 'shift', '2'],
+      },
+      {
+        icon: 'h-3',
+        name: '标题3',
+        markdown: '### 标题3',
+        shortcut: ['command', 'shift', '3'],
+      },
+      {
+        icon: 'h-4',
+        name: '标题4',
+        markdown: '#### 标题4',
+        shortcut: ['command', 'shift', '4'],
+      },
     ]
   }
 }

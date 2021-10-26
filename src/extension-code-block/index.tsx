@@ -8,6 +8,7 @@ import {
 } from '@/core/extension'
 import { findDomAtPos } from '@/core/utils/node'
 import { BubbleMenuConfig } from '@/extension-bubble-menu'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import { textblockTypeInputRule } from 'prosemirror-inputrules'
 import { DOMOutputSpec } from 'prosemirror-model'
 import { EditorState, Plugin, PluginKey, Selection } from 'prosemirror-state'
@@ -264,5 +265,16 @@ export class CodeBlockExtension extends ExtensionWithState<
 
   createNodeView(): CreateNodeView {
     return (node, view, getPos) => new CodeBlockView(node, view, getPos)
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        name: '代码块',
+        icon: 'code-box-line',
+        markdown: '```代码块',
+        shortcut: [],
+      },
+    ]
   }
 }

@@ -3,6 +3,7 @@ import {
   defaultPreset,
   EditorProvider,
   EditorContent,
+  HelpButton,
 } from '@/index'
 import { useCallback } from 'react'
 import html from './content/index.html'
@@ -69,6 +70,7 @@ export default function App() {
           </div>
         </div>
         <EditorContent />
+        <HelpButton />
       </EditorProvider>
     </div>
   )

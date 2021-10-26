@@ -1,5 +1,6 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension } from '@/core/extension'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import { InputRule, wrappingInputRule } from 'prosemirror-inputrules'
 import { DOMOutputSpec } from 'prosemirror-model'
 
@@ -43,12 +44,23 @@ export class BlockquoteExtension extends Extension {
     }
   }
 
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'double-quotes-l',
+        name: '引用',
+        markdown: '> 引用',
+        shortcut: ['command', 'shift', '9'],
+      },
+    ]
+  }
+
   addCommands() {
     this.addCommandMeta('toggleBlockquote', {
       icon: 'double-quotes-l',
       name: '引用',
       markdown: '> 引用',
-      shortcut: ['command', 'shift', '.'],
+      shortcut: ['command', 'shift', '9'],
     })
 
     return {

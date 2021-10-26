@@ -20,6 +20,7 @@ import {
 import EditLink from './edit-link'
 import { selectionToRect } from '@/core/utils/selection-to-rect'
 import { EditorView } from 'prosemirror-view'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 
 const linkPluginKey = new PluginKey<LinkPluginState>('link')
 
@@ -573,6 +574,17 @@ export class LinkExtension extends Extension {
           },
         },
       }),
+    ]
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'link',
+        name: '插入链接',
+        markdown: '',
+        shortcut: ['command', 'k'],
+      },
     ]
   }
 }

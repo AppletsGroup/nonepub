@@ -1,5 +1,6 @@
 import { CommandReturn } from '@/core/command-manager'
 import { Extension, ExtensionNode } from '@/core/extension'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 import { InputRule, wrappingInputRule } from 'prosemirror-inputrules'
 
 const BULLET_LIST: 'bullet_list' = 'bullet_list'

@@ -17,6 +17,7 @@ import {
   sinkListItem as _sinkListItem,
   liftListItem as _liftListItem,
 } from 'prosemirror-schema-list'
+import { ShortcutGuide } from '@/extension-shortcut-overview'
 
 function _splitListItem(itemType: NodeType) {
   return function (
@@ -212,6 +213,29 @@ export class ListCommonExtension extends Extension {
           nodeType: this.editor.schema.nodes.list_item,
         }),
     }
+  }
+
+  getShortcutGuide(): ShortcutGuide[] {
+    return [
+      {
+        icon: 'list-check',
+        name: '任务列表',
+        markdown: '-[] 任务',
+        shortcut: [],
+      },
+      {
+        icon: 'list-ordered',
+        name: '有序列表',
+        markdown: '1. 列表内容',
+        shortcut: ['command', 'shift', '7'],
+      },
+      {
+        icon: 'list-unordered',
+        name: '无序列表',
+        markdown: '- 列表内容',
+        shortcut: ['command', 'shift', '8'],
+      },
+    ]
   }
 
   addCommands(): Record<string, Command> {
