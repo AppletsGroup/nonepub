@@ -17,7 +17,7 @@ const tokens: { [key: string]: TokenConfig } = {
       title: tok.attrGet('title') || null,
     }),
   },
-  hr: { node: 'rule' },
+  hr: { node: 'horizontal_rule' },
   heading: {
     block: 'heading',
     attrs: (tok: Token) => ({ level: +tok.tag.slice(1) }),
@@ -25,10 +25,10 @@ const tokens: { [key: string]: TokenConfig } = {
   softbreak: { node: 'hardBreak' },
   hardbreak: { node: 'hardBreak' },
   code_block: { block: 'codeBlock' },
-  list_item: { block: 'listItem' },
-  bullet_list: { block: 'bulletList' },
+  list_item: { block: 'list_item' },
+  bullet_list: { block: 'bullet_list' },
   ordered_list: {
-    block: 'orderedList',
+    block: 'ordered_list',
     attrs: (tok: any) => ({ order: +tok.attrGet('order') || 1 }),
   },
   code_inline: { mark: 'code' },
@@ -73,6 +73,7 @@ export class PasteExtension extends Extension {
           if (config.mark && this.editor.schema.marks[config.mark]) return true
           if (config.block && this.editor.schema.nodes[config.block])
             return true
+          if (config.node && this.editor.schema.nodes[config.node]) return true
 
           return false
         }),
