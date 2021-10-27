@@ -133,7 +133,7 @@ const QuickInsertCard = forwardRef((props: Props, ref) => {
             <ShortcutWrapper>
               <div>快捷键：</div>
               {(activeItem.shortcut || []).map((keyName) => {
-                return <KeyboardButton keyName={keyName} />
+                return <KeyboardButton keyName={keyName} key={keyName} />
               })}
             </ShortcutWrapper>
             <MarkdownWrapper>Makrdown: {activeItem.markdown}</MarkdownWrapper>

@@ -30,6 +30,9 @@ export default function QuickInsert() {
     if (!quickInsertProps.visible) {
       return
     }
+    if (!quickInsertProps.items?.length) {
+      return
+    }
 
     let handled = true
 
