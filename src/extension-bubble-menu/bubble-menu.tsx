@@ -16,6 +16,7 @@ import { useOnClickOutside } from '@/react/hooks/use-on-click-outside'
 import { ContextMenu, ContextMenuItem } from '@/react/ui/context-menu'
 import classNames from 'classnames'
 import { ExtensionStore } from '@/core/extension'
+import { keyToSymbol } from '@/core/utils/keyboard'
 
 function useBubbleMenuConfig() {
   const extension = useExtension(BubbleMenuExtension)
@@ -259,8 +260,8 @@ function NormalMenuButton({ button }: { button: BubbleMenuButtonItem }) {
             y: 8,
           }}
         >
-          <div className="whitespace-nowrap bg-black bg-opacity-70 text-white text-sm rounded-md p-2">
-            {button.shortcut.join(' + ')}
+          <div className="whitespace-nowrap bg-black bg-opacity-70 text-white text-sm rounded-md p-2 backdrop-filter backdrop-blur">
+            {button.shortcut.map((keyName) => keyToSymbol(keyName)).join(' + ')}
           </div>
         </Popup>
       )}
