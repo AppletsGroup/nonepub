@@ -28,6 +28,7 @@ export interface BubbleMenuButtonItem {
   icon: string
   name: string
   isActive: boolean
+  shortcut?: string[]
   onClick: () => void
 }
 
