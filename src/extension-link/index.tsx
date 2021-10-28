@@ -21,6 +21,7 @@ import EditLink from './edit-link'
 import { selectionToRect } from '@/core/utils/selection-to-rect'
 import { EditorView } from 'prosemirror-view'
 import { ShortcutGuide } from '@/extension-shortcut-overview'
+import './index.css'
 
 const linkPluginKey = new PluginKey<LinkPluginState>('link')
 
@@ -508,16 +509,21 @@ export class LinkExtension extends Extension {
               return false
             }
 
-            const tr = view.state.tr.setMeta(linkPluginKey, {
-              link: {
-                ...markRange,
-              },
-              type: LinkAction.ClickLink,
-            })
+            if (event.metaKey && markRange.mark?.attrs.href) {
+              window.open(markRange.mark?.attrs.href, '_blank')
+              return true
+            } else {
+              const tr = view.state.tr.setMeta(linkPluginKey, {
+                link: {
+                  ...markRange,
+                },
+                type: LinkAction.ClickLink,
+              })
 
-            view.dispatch(tr)
+              view.dispatch(tr)
 
-            return true
+              return true
+            }
           },
 
           transformPasted: (slice) => {
