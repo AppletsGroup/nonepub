@@ -35,6 +35,8 @@ export function pasteRules(options: PasteRulesOptions) {
         const text = event.clipboardData.getData('text/plain')
         const html = event.clipboardData.getData('text/html')
 
+        console.log(html)
+
         if (html.length > 0) {
           return false
         }
