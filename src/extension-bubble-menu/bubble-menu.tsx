@@ -15,6 +15,8 @@ import Icon from '@/react/ui/icon'
 import { useOnClickOutside } from '@/react/hooks/use-on-click-outside'
 import { ContextMenu, ContextMenuItem } from '@/react/ui/context-menu'
 import classNames from 'classnames'
+import { ExtensionStore } from '@/core/extension'
+import { keyToSymbol } from '@/core/utils/keyboard'
 
 function useBubbleMenuConfig() {
   const extension = useExtension(BubbleMenuExtension)
@@ -110,6 +112,8 @@ export default function BubbleMenu() {
 
   const [canShow, setCanShow] = useState(true)
 
+  const guides = ExtensionStore.getStore().get('shortcutGuides')
+
   let isActive = false
   let location = {
     rect: INVISIBLE_RECT,
@@ -152,6 +156,13 @@ export default function BubbleMenu() {
     (item): item is BubbleMenuButtonItem | BubbleMenuDropDownItem =>
       item.type === 'button' || item.type === 'dropdown',
   )
+  // TODO: 完善快捷键机制
+  menuButtons.forEach((button) => {
+    const guide = guides.find((g) => g.name === button.name)
+    if (guide && button.type === 'button') {
+      button.shortcut = guide.shortcut
+    }
+  })
 
   const customRenderers = bubbleMenuConfig.items.filter(
     (item): item is BubbleMenuCustomItem => item.type === 'custom',
@@ -181,19 +192,7 @@ export default function BubbleMenu() {
             {menuButtons.map((button) => {
               switch (button.type) {
                 case 'button':
-                  const btnClassName = classNames(
-                    'w-10 h-10 flex items-center justify-center cursor-pointer',
-                    {
-                      'text-gray-600': !button.isActive,
-                      'text-blue-500': button.isActive,
-                    },
-                  )
-
-                  return (
-                    <div className={btnClassName} onClick={button.onClick}>
-                      <Icon name={button.icon} />
-                    </div>
-                  )
+                  return <NormalMenuButton button={button} />
                 case 'dropdown':
                   return <DropdownButton button={button} />
                 default:
@@ -220,6 +219,53 @@ export default function BubbleMenu() {
         })}
       </div>
     </Popup>
+  )
+}
+
+function NormalMenuButton({ button }: { button: BubbleMenuButtonItem }) {
+  const btnRef = useRef<HTMLDivElement>(null)
+  const [isActive, setIsActive] = useState(false)
+
+  const btnClassName = classNames(
+    'w-10 h-10 flex items-center justify-center cursor-pointer',
+    {
+      'text-gray-600': !button.isActive,
+      'text-blue-500': button.isActive,
+    },
+  )
+
+  return (
+    <div
+      className={btnClassName}
+      onClick={button.onClick}
+      ref={btnRef}
+      onMouseEnter={() => {
+        setIsActive(true)
+      }}
+      onMouseLeave={() => {
+        setIsActive(false)
+      }}
+    >
+      <Icon name={button.icon} />
+      {button.shortcut && button.shortcut.length > 0 && (
+        <Popup
+          target={btnRef.current}
+          visible={isActive}
+          placement={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          offset={{
+            x: 0,
+            y: 8,
+          }}
+        >
+          <div className="whitespace-nowrap bg-black bg-opacity-70 text-white text-sm rounded-md p-2 backdrop-filter backdrop-blur">
+            {button.shortcut.map((keyName) => keyToSymbol(keyName)).join(' + ')}
+          </div>
+        </Popup>
+      )}
+    </div>
   )
 }
 

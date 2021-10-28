@@ -96,25 +96,47 @@ export class QuickInsertExtension extends Extension {
       )
     }
 
+    let shouldActive = false
+
     return {
-      matcher: createCharMathcer('/'),
+      matcher: createCharMathcer('/', { allowSpaces: true }),
       onChange: ({ view, match, rect }) => {
-        const items = findMatchedMenuItems(match.text)
-        this.onQuickInsertChange({
-          match,
-          items,
-          visible: true,
-          rect,
-        })
+        if (shouldActive) {
+          const items = findMatchedMenuItems(match.text)
+          this.onQuickInsertChange({
+            match,
+            items,
+            visible: true,
+            rect,
+          })
+        } else {
+          this.onQuickInsertChange({
+            match,
+            items: [],
+            visible: false,
+            rect,
+          })
+        }
       },
       onEnter: ({ view, match, rect }) => {
-        const items = findMatchedMenuItems(match.text)
-        this.onQuickInsertChange({
-          match,
-          items,
-          visible: true,
-          rect,
-        })
+        if (match.text === '/') {
+          shouldActive = true
+          const items = findMatchedMenuItems(match.text)
+          this.onQuickInsertChange({
+            match,
+            items,
+            visible: true,
+            rect,
+          })
+        } else {
+          shouldActive = false
+          this.onQuickInsertChange({
+            match,
+            items: [],
+            visible: false,
+            rect,
+          })
+        }
       },
       onExit: ({ view, match, rect }) => {
         this.onQuickInsertChange({

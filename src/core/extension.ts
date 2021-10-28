@@ -39,7 +39,7 @@ export type CreateNodeView = (
   decorations: Decoration[],
 ) => NodeView
 
-class ExtensionStore {
+export class ExtensionStore {
   private static _store: ExtensionStore
 
   private kv = new Map<string, unknown>()
@@ -136,7 +136,7 @@ export abstract class Extension<EventMap = any> {
 
 export abstract class ExtensionWithState<
   EventMap = any,
-  State = any
+  State = any,
 > extends Extension<EventMap> {
   abstract onStateUpdate(fn: (s: State) => void): () => void
 

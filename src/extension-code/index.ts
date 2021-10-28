@@ -64,7 +64,7 @@ export class CodeExtension extends Extension {
         name: '行内代码',
         icon: 'code-s-slash-line',
         markdown: '`code`',
-        shortcut: ['command', 'shift', 'm'],
+        shortcut: ['command', 'shift', 'M'],
       },
     ]
   }

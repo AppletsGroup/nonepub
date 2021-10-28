@@ -82,6 +82,13 @@ export class ShortcutOverviewExtension extends ExtensionWithState<
   getReactContentComponent() {
     return ShortcutOverview
   }
+
+  beforeResolvedAll() {
+    const guides = this.editor.extensions.flatMap(
+      (ex) => ex.getShortcutGuide?.() || [],
+    )
+    this._store.set('shortcutGuides', guides)
+  }
 }
 
 export interface ShortcutGuide {
@@ -93,6 +100,10 @@ export interface ShortcutGuide {
 
 declare global {
   namespace XEditor {
+    interface ExtensionStoreKV {
+      shortcutGuides: ShortcutGuide[]
+    }
+
     interface ExtensionAddons {
       /**
        * @injectBy ShortcutOverviewExtension

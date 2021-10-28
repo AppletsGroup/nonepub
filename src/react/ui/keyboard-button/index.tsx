@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { keyToSymbol } from '@/core/utils/keyboard'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 24px;
@@ -12,23 +13,12 @@ const Wrapper = styled.div`
   background: rgba(0, 0, 0, 0.06);
   color: rgba(32, 36, 38, 0.45);
   cursor: default;
-`;
-
-const KEYBOARD_SYMBOL: { [k: string]: string } = {
-  command: "⌘",
-  option: "⌥",
-  shift: "⇧",
-  capsLock: "⇪",
-  control: "⌃",
-  return: "↩",
-  enter: "⌅",
-};
+`
 
 type Props = {
-  keyName: string;
-};
+  keyName: string
+}
 
 export default function KeyboardButton(props: Props) {
-  const text = KEYBOARD_SYMBOL[props.keyName] ?? props.keyName;
-  return <Wrapper>{text}</Wrapper>;
+  return <Wrapper>{keyToSymbol(props.keyName)}</Wrapper>
 }
