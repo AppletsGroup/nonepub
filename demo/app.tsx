@@ -22,7 +22,7 @@ const options = defaultPreset(
           resolve({
             src: uri,
           })
-        }, 1000)
+        }, 4000)
       })
     },
     readonly: false,
