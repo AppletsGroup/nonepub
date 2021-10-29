@@ -4,6 +4,7 @@ import { CommandManager } from './command-manager'
 import { Extension } from './extension'
 import { ExtensionManager } from './extension-manager'
 import { DOMParser, DOMSerializer } from 'prosemirror-model'
+import { createUniqueId } from '@/utils'
 // import applyDevTools from 'prosemirror-dev-tools'
 
 export interface EditorOptions {
@@ -17,11 +18,13 @@ export interface EditorOptions {
 }
 
 export class Editor {
+  uniqId: string
   editorView!: EditorView
   private extensionManager!: ExtensionManager
   private commandManager!: CommandManager
 
   constructor(private options: Partial<EditorOptions>) {
+    this.uniqId = createUniqueId()
     this.createExtensionManager()
     this.createCommandManager()
     this.createEditorView()
@@ -106,7 +109,6 @@ export class Editor {
   public destroy() {
     this.extensionManager.destroy()
     this.editorView.destroy()
-    this.editorView.state.doc.toJSON
   }
 
   // TODO: 当状态发生变化的时候 通知 react（注//声称需要状态时时变化的组件才需要）
