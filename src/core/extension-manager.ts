@@ -15,7 +15,7 @@ import { MarkSpec, NodeSpec, Schema } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
 import { Editor } from './editor'
 import { CommandMeta, CreateNodeView, Extension } from './extension'
-import { coreExtensions } from './extensions/core-extensions'
+import { createCoreExtensions } from './extensions/core-extensions'
 import sortBy from './sort'
 import type { Command } from './command-manager'
 import type { Command as PMCommand } from './types'
@@ -47,7 +47,7 @@ export class ExtensionManager {
   }
 
   process() {
-    const extensions = [...coreExtensions, ...this.extensions]
+    const extensions = [...createCoreExtensions(), ...this.extensions]
     this.extensions = extensions
     extensions.forEach((ex) => {
       ex.setEditor(this.editor)

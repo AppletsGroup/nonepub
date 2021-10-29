@@ -192,9 +192,9 @@ export default function BubbleMenu() {
             {menuButtons.map((button) => {
               switch (button.type) {
                 case 'button':
-                  return <NormalMenuButton button={button} />
+                  return <NormalMenuButton button={button} key={button.name} />
                 case 'dropdown':
-                  return <DropdownButton button={button} />
+                  return <DropdownButton button={button} key={button.name} />
                 default:
                   throw new Error('unimplemented')
               }

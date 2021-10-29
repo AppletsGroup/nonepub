@@ -55,6 +55,11 @@ export function getMeta(tr: Transaction) {
 }
 
 const rafHandleMouseMove = rafSchd((view: EditorView, event: MouseEvent) => {
+  // TODO: 完善编辑和不可编辑的机制
+  if (!view.editable) {
+    return
+  }
+
   const { clientX, clientY } = event
   const pos = view.posAtCoords({
     left: clientX + 24,

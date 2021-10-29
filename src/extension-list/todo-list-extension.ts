@@ -13,7 +13,8 @@ export class TodoListExtension extends Extension {
         name: TODO_LIST,
         nodeSpec: {
           content: 'todo_item+',
-          parseDOM: [{ tag: 'ul[data-todo-list]' }],
+          // TODO: 优先级问题如何优雅得处理
+          parseDOM: [{ tag: 'ul[data-todo-list]', priority: 60 }],
           toDOM: (node) => ['ul', { 'data-todo-list': '' }, 0],
           group: 'block',
         },
