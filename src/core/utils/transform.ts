@@ -1,6 +1,7 @@
 import { Fragment, Slice, Node as PMNode } from 'prosemirror-model'
 import { Step, StepResult, Mappable } from 'prosemirror-transform'
 
+// https://github.com/ProseMirror/prosemirror/issues/918
 // https://discuss.prosemirror.net/t/preventing-image-placeholder-replacement-from-being-undone/1394
 export class SetAttrsStep<Attrs = any> extends Step {
   constructor(public pos: number, public attrs: Attrs) {
