@@ -25,6 +25,7 @@ export type OnceCommands = {
   ) => boolean
 } & {
   callCommand: (name: string, ...args: any[]) => boolean
+  dryCallCommand: (name: string, ...args: any[]) => boolean
 }
 
 export type CommandReturn = (params: {
@@ -74,6 +75,14 @@ export class CommandManager {
         tr: this.tr,
         state: this.editor.editorView.state,
         dispatch: this.editor.editorView.dispatch,
+        view: this.editor.editorView,
+      })
+    }
+
+    onceCommands['dryCallCommand'] = (name: string, ...args: any[]) => {
+      return this.commandMap[name](...args)({
+        tr: this.tr,
+        state: this.editor.editorView.state,
         view: this.editor.editorView,
       })
     }

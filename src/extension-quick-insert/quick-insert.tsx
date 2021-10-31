@@ -133,6 +133,18 @@ export default function QuickInsert() {
     [editor, quickInsertProps],
   )
 
+  const items = (quickInsertProps.items ?? []).map((pluginItem) => {
+    const enabled = editor.commandOnce.dryCallCommand(
+      pluginItem.commandName,
+      pluginItem.commandOptions,
+    )
+
+    return {
+      ...pluginItem,
+      enabled,
+    }
+  })
+
   return (
     <LocationPopup
       location={location}
@@ -141,7 +153,7 @@ export default function QuickInsert() {
       dismissImmediately
     >
       <UiQuickInsert
-        items={quickInsertProps.items || []}
+        items={items}
         onItemClick={handleMenuItemClick}
         activeIndex={activeIndex}
         onActiveIndexChange={(idx) => {

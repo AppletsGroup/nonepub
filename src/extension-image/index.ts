@@ -224,8 +224,10 @@ export class ImageExtension extends Extension {
       alignRight: createAlignCommand('right'),
 
       triggerUploadImage: (): CommandReturn => {
-        return () => {
-          this.fileManager.openPicker()
+        return ({ dispatch }) => {
+          if (dispatch) {
+            this.fileManager.openPicker()
+          }
           return true
         }
       },
