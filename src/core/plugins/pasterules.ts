@@ -35,8 +35,6 @@ export function pasteRules(options: PasteRulesOptions) {
         const text = event.clipboardData.getData('text/plain')
         const html = event.clipboardData.getData('text/html')
 
-        console.log(html)
-
         if (html.length > 0) {
           return false
         }
@@ -80,7 +78,7 @@ export function pasteRules(options: PasteRulesOptions) {
           return false
         },
         drop(view, event) {
-          if (view.props.editable?.(view.state)) {
+          if (!view.props.editable?.(view.state)) {
             return false
           }
 

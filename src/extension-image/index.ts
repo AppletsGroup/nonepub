@@ -22,6 +22,7 @@ import {
 import { BubbleMenuConfig } from '@/extension-bubble-menu'
 import { EditorView } from 'prosemirror-view'
 import { ShortcutGuide } from '@/extension-shortcut-overview'
+import { SetAttrsStep } from '@/core/utils/transform'
 
 declare global {
   namespace XEditor {
@@ -170,14 +171,12 @@ export class ImageExtension extends Extension {
                 node.type.name === 'image' && node.attrs.id === fileState.id,
             )
             if (imageNode) {
-              tr.replaceWith(
-                imageNode.pos,
-                imageNode.pos + imageNode.node.nodeSize,
-                this.editor.schema.nodes.image.create({
+              tr.step(
+                new SetAttrsStep(imageNode.pos, {
                   ...imageNode.node.attrs,
                   src: fileState.url,
                 }),
-              )
+              ).setMeta('addToHistory', false)
             }
 
             view.dispatch(tr)
@@ -225,8 +224,10 @@ export class ImageExtension extends Extension {
       alignRight: createAlignCommand('right'),
 
       triggerUploadImage: (): CommandReturn => {
-        return () => {
-          this.fileManager.openPicker()
+        return ({ dispatch }) => {
+          if (dispatch) {
+            this.fileManager.openPicker()
+          }
           return true
         }
       },
