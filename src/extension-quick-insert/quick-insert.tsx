@@ -26,6 +26,19 @@ export default function QuickInsert() {
     }
   }, [quickInsertProps.rect])
 
+  // TODO: 性能问题
+  const items = (quickInsertProps.items ?? []).map((pluginItem) => {
+    const enabled = editor.commandOnce.dryCallCommand(
+      pluginItem.commandName,
+      pluginItem.commandOptions,
+    )
+
+    return {
+      ...pluginItem,
+      disabled: !enabled,
+    }
+  })
+
   const keyDownHandler = (e: KeyboardEvent) => {
     if (!quickInsertProps.visible) {
       return
@@ -103,7 +116,7 @@ export default function QuickInsert() {
         break
       case KEYBOARD.ENTER:
         if (typeof activeIndex === 'number') {
-          handleMenuItemClick(quickInsertProps.items[activeIndex])
+          handleMenuItemClick(items[activeIndex])
         }
         break
       default:
@@ -120,30 +133,20 @@ export default function QuickInsert() {
 
   const handleMenuItemClick = useCallback(
     (pluginItem: QuickInsertItem) => {
-      editor.commandChain
-        .focus()
-        .replaceWith(
-          quickInsertProps.match!.range.from,
-          quickInsertProps.match!.range.to,
-          Fragment.empty,
-        )
-        .callCommand(pluginItem.commandName!, pluginItem.commandOptions)
-        .run()
+      if (!pluginItem.disabled) {
+        editor.commandChain
+          .focus()
+          .replaceWith(
+            quickInsertProps.match!.range.from,
+            quickInsertProps.match!.range.to,
+            Fragment.empty,
+          )
+          .callCommand(pluginItem.commandName!, pluginItem.commandOptions)
+          .run()
+      }
     },
     [editor, quickInsertProps],
   )
-
-  const items = (quickInsertProps.items ?? []).map((pluginItem) => {
-    const enabled = editor.commandOnce.dryCallCommand(
-      pluginItem.commandName,
-      pluginItem.commandOptions,
-    )
-
-    return {
-      ...pluginItem,
-      enabled,
-    }
-  })
 
   return (
     <LocationPopup

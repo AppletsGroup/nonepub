@@ -60,7 +60,7 @@ export default function ShortcutOverview() {
                   </div>
                   <div className="flex">
                     {(config.shortcut || []).map((keyName) => {
-                      return <KeyboardButton keyName={keyName} />
+                      return <KeyboardButton keyName={keyName} key={keyName} />
                     })}
                   </div>
                 </div>

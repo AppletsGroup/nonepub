@@ -51,6 +51,7 @@ const MarkdownWrapper = styled.div`
 
 interface ItemWrapperProps {
   active: boolean
+  disabled: boolean
 }
 
 const ItemWrapper = styled.div`
@@ -59,10 +60,12 @@ const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: rgba(32, 36, 38, 0.6);
+  color: ${(props: ItemWrapperProps) =>
+    props.disabled ? 'rgba(32, 36, 38, 0.4)' : 'rgba(32, 36, 38, 0.6)'};
   padding: 8px;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${(props: ItemWrapperProps) =>
+    props.disabled ? 'not-allowed' : 'pointer'};
   background: ${(props: ItemWrapperProps) =>
     props.active ? 'rgba(32, 36, 38, 0.03)' : 'transparent'};
 `
@@ -80,6 +83,7 @@ export type QuickInsertItem = {
   alias?: string[]
   commandName?: string
   commandOptions?: any
+  disabled?: boolean
 }
 
 export type Props = {
@@ -110,6 +114,7 @@ const QuickInsertCard = forwardRef((props: Props, ref) => {
       <Wrapper>
         {items.map((item, idx) => (
           <ItemWrapper
+            disabled={!!item.disabled}
             key={item.name}
             active={props.activeIndex === idx}
             onMouseEnter={() => {
@@ -123,7 +128,15 @@ const QuickInsertCard = forwardRef((props: Props, ref) => {
             }}
           >
             {item.icon && <Icon name={item.icon} />}
-            <Name>{item.name}</Name>
+            <Name
+              style={{
+                color: item.disabled
+                  ? 'rgba(32, 36, 38, 0.4)'
+                  : 'rgba(32, 36, 38, 0.8)',
+              }}
+            >
+              {item.name}
+            </Name>
           </ItemWrapper>
         ))}
       </Wrapper>
