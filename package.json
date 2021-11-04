@@ -1,6 +1,6 @@
 {
   "name": "@yikeguozi/nonepub",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "scripts": {
     "prepare": "ts-patch install -s",
     "dev": "vite",
