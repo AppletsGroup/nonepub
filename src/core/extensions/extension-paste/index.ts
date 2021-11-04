@@ -35,7 +35,8 @@ const tokens: { [key: string]: TokenConfig } = {
   fence: {
     block: 'code_block',
     // we trim any whitespaces around language definition
-    attrs: (tok: any) => ({ language: (tok.info && tok.info.trim()) || null }),
+    // TODO: 不支持的语言，变成 text/plain，应该在插件里面做？
+    attrs: (tok: any) => ({ mode: (tok.info && tok.info.trim()) || null }),
   },
   emoji: {
     node: 'emoji',

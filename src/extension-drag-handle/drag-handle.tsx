@@ -1,11 +1,12 @@
 import { useEditorContext } from '@/react/hooks/use-editor-context'
 import Icon from '@/react/ui/icon'
-import { DragEvent, useEffect, useRef, useState } from 'react'
+import { DragEvent, MouseEvent, useEffect, useRef, useState } from 'react'
 import { useDragHandle } from './use-drag-handle'
 import { calculatePosition } from '@/core/utils/position'
 import { INVISIBLE_RECT } from '@/extension-locator'
-import { TextSelection } from 'prosemirror-state'
+import { NodeSelection, TextSelection } from 'prosemirror-state'
 import { DragHandleAction, setMeta } from '.'
+import { DOMSerializer } from 'prosemirror-model'
 
 export function DragHandle() {
   const { editor } = useEditorContext()
@@ -27,9 +28,29 @@ export function DragHandle() {
     )
   }
 
+  const handleOnMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    if (activeNode) {
+      editor.editorView.dispatch(
+        editor.editorView.state.tr.setSelection(
+          NodeSelection.create(editor.editorView.state.doc, activeNode.pos),
+        ),
+      )
+    }
+  }
+
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     if (activeNode) {
+      const dom = DOMSerializer.fromSchema(
+        editor.editorView.state.doc.type.schema,
+      ).serializeNode(editor.editorView.state.doc.nodeAt(activeNode.pos)!)
+      e.dataTransfer.clearData()
+      e.dataTransfer.setData('text/html', (dom as HTMLElement).outerHTML)
       e.dataTransfer.setDragImage(activeNode.node as Element, 0, 0)
+      // https://github.com/ProseMirror/prosemirror-view/blob/c7ddda91219a6c81449d3cc8f704edd8a33123c2/src/input.js#L603
+      editor.editorView.dragging = {
+        slice: editor.editorView.state.selection.content(),
+        move: true,
+      }
     }
   }
 
@@ -108,6 +129,7 @@ export function DragHandle() {
         left: position.x,
         top: position.y,
       }}
+      onMouseDown={handleOnMouseDown}
       onDragStart={handleDragStart}
       draggable
       onClick={handleShowBlockMenu}
