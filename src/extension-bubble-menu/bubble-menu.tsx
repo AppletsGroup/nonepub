@@ -209,6 +209,7 @@ export default function BubbleMenu() {
                   icon={item.icon}
                   text={item.name}
                   key={item.name}
+                  onClick={item.onClick}
                 />
               )
             })}

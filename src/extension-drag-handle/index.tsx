@@ -1,7 +1,10 @@
 import { EventEmitter } from '@/core/event-emitter'
 import { Extension } from '@/core/extension'
 import { findDomAtPos, findNodeAtPosition } from '@/core/utils/node'
-import { BubbleMenuConfig } from '@/extension-bubble-menu'
+import {
+  BubbleMenuConfig,
+  BubbleMenuContextMenuItem,
+} from '@/extension-bubble-menu'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import rafSchd from 'raf-schd'
@@ -127,70 +130,68 @@ export class DragHandleExtension extends Extension {
     const state = dragHandlePluginKey.getState(view.state)
 
     if (state && state.activeNode && state.isContextMenuActive) {
-      return {
-        items: [
-          {
-            type: 'contextmenu',
-            icon: 'align-left',
-            name: '左对齐',
-            onClick: () => {},
-          },
-          {
-            type: 'contextmenu',
-            icon: 'align-center',
-            name: '居中对齐',
-            onClick: () => {},
-          },
-          {
-            type: 'contextmenu',
-            icon: 'align-right',
-            name: '右对齐',
-            onClick: () => {},
-          },
-          {
-            type: 'contextmenu',
-            icon: 'file-copy-line',
-            name: '复制内容',
-            onClick: () => {},
-          },
-          {
-            type: 'contextmenu',
-            icon: 'delete-bin-line',
-            name: '删除',
-            onClick: () => {},
-          },
-        ],
-        getBoundingClientRect: () => {
-          const rect = getTargetRect(
-            view,
-            state.activeNode!.node as HTMLElement,
-            state.activeNode!.pos,
-          )
-          const r = {
-            ...rect,
-            left: rect.x,
-            top: rect.y,
-            right: rect.x + rect.width,
-            bottom: rect.y + rect.height,
-          }
+      const node = view.state.doc.nodeAt(state.activeNode.pos)
+      if (node) {
+        const pos = state.activeNode.pos
+        const typeName = node.type.name
+        const ext = this.editor.extensions.filter((ex) => ex.name === typeName)
+        if (ext.length > 0) {
+          const items =
+            ext[0].getDragHandleContextMenu?.(state.activeNode.pos) ?? []
 
           return {
-            ...r,
-            toJSON() {
-              return r
+            items: [
+              ...items,
+              {
+                type: 'contextmenu',
+                icon: 'delete-bin-line',
+                name: '删除',
+                onClick: () => {
+                  const node = this.editor.editorView.state.doc.nodeAt(pos)
+                  if (node) {
+                    this.editor.editorView.dispatch(
+                      this.editor.editorView.state.tr.delete(
+                        pos,
+                        pos + node.nodeSize,
+                      ),
+                    )
+                  }
+                },
+              },
+            ],
+            getBoundingClientRect: () => {
+              const rect = getTargetRect(
+                view,
+                state.activeNode!.node as HTMLElement,
+                state.activeNode!.pos,
+              )
+              const r = {
+                ...rect,
+                left: rect.x,
+                top: rect.y,
+                right: rect.x + rect.width,
+                bottom: rect.y + rect.height,
+              }
+
+              return {
+                ...r,
+                toJSON() {
+                  return r
+                },
+              }
+            },
+            placement: {
+              horizontal: 'right',
+              vertical: 'start',
+            },
+            onClickOutside: () => {
+              const tr = setMeta(view.state.tr, {
+                type: DragHandleAction.DismissContextMenu,
+              })
+              view.dispatch(tr)
             },
           }
-        },
-        placement: {
-          horizontal: 'right',
-          vertical: 'start',
-        },
-        onClickOutside: () => {
-          const tr = setMeta(view.state.tr, {
-            type: DragHandleAction.DismissContextMenu,
-          })
-          view.dispatch(tr)
-        },
+        }
       }
     }
 
@@ -286,5 +287,19 @@ export class DragHandleExtension extends Extension {
 
   getReactContentComponent() {
     return DragHandle
+  }
+}
+
+declare global {
+  namespace XEditor {
+    interface ExtensionAddons {
+      /**
+       * @injectBy ReactExtension
+       */
+      getDragHandlePosition?(): { x: number; y: number } | null
+      getDragHandleContextMenu?(
+        pos: number,
+      ): BubbleMenuContextMenuItem[] | undefined
+    }
   }
 }

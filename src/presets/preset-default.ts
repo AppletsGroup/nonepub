@@ -1,4 +1,5 @@
 import { EditorOptions } from '@/core/editor'
+import { Extension } from '@/core/extension'
 import { FileUploader } from '@/core/utils/file-manager'
 import { BaseExtension } from '@/extension-base'
 import { BackgroundColorExtension } from '@/extension-bg-color'
@@ -54,58 +55,60 @@ export default function defaultPreset(
       new ParagraphExtension(),
       new BlockquoteExtension(),
       new HeadingExtension(),
-      new QuickInsertExtension({
-        items: [
-          {
-            name: 'setHeading',
-            options: { level: 1 },
-          },
-          {
-            name: 'setHeading',
-            options: { level: 2 },
-          },
-          {
-            name: 'setHeading',
-            options: { level: 3 },
-          },
-          {
-            name: 'toggleBlockquote',
-          },
-          {
-            name: 'attachLink',
-          },
-          {
-            name: 'triggerUploadImage',
-          },
-          {
-            name: 'wrapInList',
-            options: {
-              type: 'bullet_list',
-              attrs: {},
-            },
-          },
-          {
-            name: 'wrapInList',
-            options: {
-              type: 'ordered_list',
-              attrs: {},
-            },
-          },
-          {
-            name: 'wrapInList',
-            options: {
-              type: 'todo_list',
-              attrs: {},
-            },
-          },
-          {
-            name: 'setCodeBlock',
-          },
-          {
-            name: 'addHorizontalRule',
-          },
-        ],
-      }),
+      !config.readonly
+        ? new QuickInsertExtension({
+            items: [
+              {
+                name: 'setHeading',
+                options: { level: 1 },
+              },
+              {
+                name: 'setHeading',
+                options: { level: 2 },
+              },
+              {
+                name: 'setHeading',
+                options: { level: 3 },
+              },
+              {
+                name: 'toggleBlockquote',
+              },
+              {
+                name: 'attachLink',
+              },
+              {
+                name: 'triggerUploadImage',
+              },
+              {
+                name: 'wrapInList',
+                options: {
+                  type: 'bullet_list',
+                  attrs: {},
+                },
+              },
+              {
+                name: 'wrapInList',
+                options: {
+                  type: 'ordered_list',
+                  attrs: {},
+                },
+              },
+              {
+                name: 'wrapInList',
+                options: {
+                  type: 'todo_list',
+                  attrs: {},
+                },
+              },
+              {
+                name: 'setCodeBlock',
+              },
+              {
+                name: 'addHorizontalRule',
+              },
+            ],
+          })
+        : undefined,
       new CodeExtension(),
       new CodeBlockExtension(),
       new EmExtension(),
@@ -118,16 +121,18 @@ export default function defaultPreset(
       new UnderlineExtension(),
       new ColorExtension(),
       new BackgroundColorExtension(),
-      new BubbleMenuExtension(),
-      new EmojiExtension(),
+      !config.readonly ? new BubbleMenuExtension() : undefined,
+      !config.readonly ? new EmojiExtension() : undefined,
       new ListCommonExtension(),
       new OrderedListExtension(),
       new BulletListExtension(),
       new TodoItemExtension(),
       new TodoListExtension(),
-      new PlaceholderExtension(),
-      new ShortcutOverviewExtension(),
-    ],
+      !config.readonly ? new PlaceholderExtension() : undefined,
+      !config.readonly ? new ShortcutOverviewExtension() : undefined,
+    ].filter((ext): ext is Extension => {
+      return !!ext
+    }),
   }
 
   return options

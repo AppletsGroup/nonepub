@@ -1,5 +1,6 @@
 import { Extension } from '@/core/extension'
 import { getLastNode } from '@/core/utils/node'
+import { BubbleMenuContextMenuItem } from '@/extension-bubble-menu'
 import { setBlockType } from 'prosemirror-commands'
 import { NodeSpec } from 'prosemirror-model'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
@@ -38,6 +39,12 @@ export class ParagraphExtension extends Extension {
     return {
       'Shift-Ctrl-0': setBlockType(this.editor.schema.nodes.paragraph),
     }
+  }
+
+  getDragHandleContextMenu(
+    pos: number,
+  ): BubbleMenuContextMenuItem[] | undefined {
+    return undefined
   }
 
   addPMPlugins() {
