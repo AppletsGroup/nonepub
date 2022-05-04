@@ -111,3 +111,11 @@ export class TodoExtension extends Extension {
     }
   }
 }
+
+declare global {
+  namespace XEditor {
+    interface AllCommands {
+      wrapInTodo: () => CommandReturn
+    }
+  }
+}

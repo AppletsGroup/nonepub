@@ -13,6 +13,10 @@ export function isMarkActive({
   const markType: Mark =
     typeof _markType === 'string' ? state.schema.marks[_markType] : _markType
   if (state.selection.empty) {
+    if (state.storedMarks) {
+      return markType.isInSet(state.storedMarks)
+    }
+
     return markType.isInSet(state.selection.$from.marks())
   }
 
