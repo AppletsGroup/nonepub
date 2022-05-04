@@ -1,5 +1,5 @@
 import { Editor } from '@/core/editor'
-import { isMarkActive } from '@/core/utils/core'
+import { isMarkActive, isNodeActive } from '@/core/utils/core'
 import { useEditorContext } from '@/react/hooks/use-editor-context'
 import { useEditorState } from '@/react/hooks/use-editor-state'
 import Icon from '@/react/ui/icon'
@@ -31,6 +31,13 @@ const MENU_ITEMS: ToolbarMenuItem[] = [
             .focus()
             .run()
         },
+        isActive: (state: EditorState) => {
+          return isNodeActive({
+            state,
+            nodeType: 'heading',
+            matchAttrs: { level: 1 },
+          })
+        },
       },
       {
         icon: 'h-2',
@@ -42,6 +49,13 @@ const MENU_ITEMS: ToolbarMenuItem[] = [
             .focus()
             .run()
         },
+        isActive: (state: EditorState) => {
+          return isNodeActive({
+            state,
+            nodeType: 'heading',
+            matchAttrs: { level: 2 },
+          })
+        },
       },
       {
         icon: 'h-3',
@@ -52,6 +66,13 @@ const MENU_ITEMS: ToolbarMenuItem[] = [
             })
             .focus()
             .run()
+        },
+        isActive: (state: EditorState) => {
+          return isNodeActive({
+            state,
+            nodeType: 'heading',
+            matchAttrs: { level: 3 },
+          })
         },
       },
     ],
@@ -66,7 +87,6 @@ const MENU_ITEMS: ToolbarMenuItem[] = [
           editor.commandChain.toggleBold().focus().run()
         },
         isActive: (state: EditorState) => {
-          console.log('is mark active?')
           return isMarkActive({ state, markType: 'strong' })
         },
       },

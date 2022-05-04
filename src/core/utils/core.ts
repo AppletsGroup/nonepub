@@ -1,4 +1,4 @@
-import { Mark } from 'prosemirror-model'
+import { Mark, NodeType } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 
 interface IsMarkActiveParams {
@@ -25,4 +25,30 @@ export function isMarkActive({
     state.selection.to,
     markType,
   )
+}
+
+interface IsNodeActiveParams {
+  state: EditorState
+  nodeType: string
+  matchAttrs?: any
+}
+
+// a rough implementation
+export function isNodeActive({
+  state,
+  nodeType,
+  matchAttrs,
+}: IsNodeActiveParams) {
+  const type: NodeType = state.schema.nodes[nodeType]
+  if (state.selection.empty) {
+    let match = state.selection.$from.node().type === type
+    if (match && matchAttrs) {
+      match = Object.entries(matchAttrs).every(([k, v]) => {
+        return state.selection.$from.node().attrs[k] === v
+      })
+    }
+    return match
+  }
+
+  return false
 }
