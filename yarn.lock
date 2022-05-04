@@ -2621,6 +2621,11 @@
   resolved "https://registry.nlark.com/@xtuc/long/download/@xtuc/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha1-0pHGpOl5ibXGHZrPOWrk/hM6cY0=
 
+"@yikeguozi/litchi@^0.0.2":
+  version "0.0.2"
+  resolved "https://npm.pkg.github.com/download/@yikeguozi/litchi/0.0.2/d91abfee2a9f81e98bfff26262cf43bf404b24561a0a3bc282ed4a2cf6194ce7#41b8d717cd5a1c633045ae902aa25023fd5e8f4c"
+  integrity sha512-hjJjDm2aPEQ/f3Yghbopus/C8cL1smXAIRKyA1byJSfvVJf2KNSxOwRbpk1Nm5bKIpD4od1IEWNBW8UjEQpVqw==
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.npm.taobao.org/abab/download/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"

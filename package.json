@@ -42,6 +42,7 @@
     "@types/smoothscroll-polyfill": "^0.3.1",
     "@types/styled-components": "^5.1.9",
     "@types/uuid": "^8.3.0",
+    "@yikeguozi/litchi": "^0.0.2",
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
