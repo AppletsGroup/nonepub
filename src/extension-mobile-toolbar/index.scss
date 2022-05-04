@@ -1,0 +1,6 @@
+.x-mobile-toolbar {
+  transform: translate3d(0, 0, 0);
+  .secondary-toolbar {
+    width: calc(100vw - theme('spacing.4'));
+  }
+}

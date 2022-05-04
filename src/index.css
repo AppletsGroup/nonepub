@@ -24,10 +24,16 @@ body {
   margin: 0;
 }
 
+@media (min-width: 75ch) {
+  .xx-editor {
+    min-height: calc(100vh - 32px);
+    padding: 32px;
+  }
+}
+
 .xx-editor {
-  min-height: calc(100vh - 32px);
   box-sizing: content-box;
-  padding: 32px;
+  padding: 16px;
   flex-grow: 1;
 }
 
@@ -41,9 +47,11 @@ body {
       format('truetype');
 }
 
-.editor-wrapper {
-  display: flex;
-  justify-content: center;
+@media (min-width: 75ch) {
+  .editor-wrapper {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 :root {
