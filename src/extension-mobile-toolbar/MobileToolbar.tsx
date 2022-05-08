@@ -228,10 +228,14 @@ export default function MobileToolbar() {
         setActiveItem(null)
         item.action(editor)
       } else {
-        setActiveItem(item)
+        if (item.name === activeItem?.name) {
+          setActiveItem(null)
+        } else {
+          setActiveItem(item)
+        }
       }
     },
-    [editor],
+    [editor, activeItem],
   )
 
   const handleItemClick = useCallback(
