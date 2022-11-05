@@ -16,8 +16,8 @@ import {
   defaultPreset,
   EditorProvider,
   EditorContent,
-} from '@yikeguozi/nonepub'
-import '@yikeguozi/nonepub/style.css'
+} from 'nonepub'
+import 'nonepub/style.css'
 import { useCallback } from 'react'
 
 const options = defaultPreset(
