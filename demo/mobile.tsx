@@ -1,7 +1,6 @@
 import { useEditor, mobilePreset, EditorProvider, EditorContent } from '@/index'
 import { useCallback, useEffect } from 'react'
 import html from './content/index.html'
-import * as Litchi from '@yikeguozi/litchi'
 
 const options = mobilePreset(
   {
@@ -35,14 +34,6 @@ export default function Mobile() {
   const handleOutputJSON = useCallback(() => {
     console.log(editor.getContentJSON())
   }, [editor])
-
-  useEffect(() => {
-    Litchi.setAction({
-      text: '发布',
-      // 可以做发布操作
-      onClick: handleOutputHtml,
-    })
-  }, [handleOutputHtml])
 
   return (
     <div className="mobile-app">

@@ -1,7 +1,6 @@
 import { Extension } from '@/core/extension'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import MobileToolbar from './MobileToolbar'
-import * as Litchi from '@yikeguozi/litchi'
 
 function getMobileToolbarElement() {
   return document.querySelector('x-mobile-toolbar')
@@ -57,13 +56,6 @@ export class MobileToolbarExtension extends Extension {
                 }
                 console.log('scroll into view')
               }, 1000)
-
-              // setTimeout(async () => {
-              //   console.log('get keyboard height')
-              //   const keyboardHeight = await Litchi.getKeyboardHeight()
-              //   const el = getMobileToolbarElement()
-              //   console.log('keyboardHeight', keyboardHeight)
-              // }, 300)
               return false
             },
           },
