@@ -31,10 +31,11 @@ export default defineConfig({
       fileName: (format) => `nonepub.${format}.js`,
     },
     rollupOptions: {
-      external: ['react'],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'react',
+          'react-dom': 'ReactDOM'
         },
       },
     },
