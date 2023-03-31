@@ -3,7 +3,7 @@ import { EditorView } from 'prosemirror-view'
 import { CommandManager } from './command-manager'
 import { Extension } from './extension'
 import { ExtensionManager } from './extension-manager'
-import { DOMParser, DOMSerializer } from 'prosemirror-model'
+import { DOMParser, DOMSerializer, Slice } from 'prosemirror-model'
 import { createUniqueId } from '@/utils'
 // import applyDevTools from 'prosemirror-dev-tools'
 
@@ -98,12 +98,27 @@ export class Editor {
       state,
       nodeViews: this.extensionManager.nodeViews,
       dispatchTransaction(tr) {
+        console.log('dispatched...')
         const newState = self.editorView.state.apply(tr)
         self.editorView.updateState(newState)
       },
     })
 
     // applyDevTools(this.editorView)
+  }
+
+  public replaceContent(html: string) {
+    const dom = document.createElement('div')
+    dom.innerHTML = html
+    const doc: Parameters<typeof EditorState.create>[0]['doc'] =
+      DOMParser.fromSchema(this.extensionManager.schema).parse(dom)
+    this.editorView.dispatch(
+      this.editorView.state.tr.replace(
+        0,
+        this.editorView.state.doc.content.size,
+        new Slice(doc.content, 0, 0),
+      ),
+    )
   }
 
   public destroy() {

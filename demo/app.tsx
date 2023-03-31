@@ -40,6 +40,10 @@ export default function App() {
     console.log(editor.getContentJSON())
   }, [editor])
 
+  const handleReplace = useCallback(() => {
+    editor.replaceContent('<p>hello world</p>')
+  }, [editor])
+
   return (
     <div className="app">
       <button
@@ -50,9 +54,15 @@ export default function App() {
       </button>
       <button
         onClick={handleOutputJSON}
-        className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
+        className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700 mr-1"
       >
         输出JSON内容
+      </button>
+      <button
+        onClick={handleReplace}
+        className="py-2 px-4 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
+      >
+        替换 HTML
       </button>
       <EditorProvider editor={editor}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
